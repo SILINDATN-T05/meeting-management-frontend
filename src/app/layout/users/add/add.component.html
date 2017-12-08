@@ -1,0 +1,115 @@
+
+      <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" (click)="close()" >&times;</button>
+            <h4 class="modal-title">{{title || 'Confirm'}}</h4>
+          </div>
+          <div class="modal-body" ng-init="parseData(data)">
+              <form-wizard>
+                  <wizard-step [title]="'Capture Information'" [isValid]="!searchForm.invalid" (onNext)="onStep1Next($event)">
+                    <form [formGroup]="searchForm" novalidate >
+                        
+                    <div class="form-group form-inline">
+                        <label class="myinput" for="firstname">First Name</label>
+                        <input name="firstname" class="form-control" formControlName="firstName">
+                    </div>
+                    <div class="form-group form-inline">
+                        <label class="myinput" for="firstname">Last Name</label>
+                        <input name="firstname" class="form-control" formControlName="lastName">
+                    </div><div class="form-group form-inline">
+                        <label class="myinput" for="firstname">Mobile Number</label>
+                        <input type="number" name="firstname" class="form-control" formControlName="msisdn">
+                    </div><div class="form-group form-inline">
+                        <label class="myinput" for="firstname">username</label>
+                        <input name="firstname" class="form-control" formControlName="username">
+                    </div><div class="form-group form-inline">
+                        <label class="myinput" for="firstname">E-mail</label>
+                        <input type="email" name="firstname" class="form-control" formControlName="email">
+                    </div>
+                    </form>
+                  </wizard-step>
+                  <wizard-step [title]="'Assign User Role'" [isValid]="isRoleSelected" (onNext)="onStep2Next($event)">
+                      <table class="table table-sm">
+                          <thead>
+                          <tr>
+                              <th>Role</th>
+                              <th>Description</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr *ngFor="let role of Roles; let i = index;">
+                              <td>{{role.name}}</td>
+                              <td>{{role.description}}</td>
+                              <td><input type="checkbox" value="{{role._id}}" [checked]="role.checked" (change)="role.checked = !role.checked" (click)="selectRole($event, role, !role.checked)"></td>
+                          </tr>
+                          </tbody>
+                      </table>
+                    <!-- <form [formGroup]="myForm">
+                      <ss-multiselect-dropdown [options]="myOptions" formControlName="optionsModel"></ss-multiselect-dropdown>
+                    </form> -->
+                  </wizard-step>
+                  <wizard-step [title]="'Assign branch'" [isValid]="isSelectedBranch" (onNext)="onStep3Next($event)">
+                    <table class="table table-sm">
+                      <thead>
+                      <tr>
+                          <th>Branch Name</th>
+                          <th>Description</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let branch of Branches; let i = index;">
+                          <td>{{branch.name}}</td>
+                          <td>{{branch.description}}</td>
+                          <td><input type="checkbox" value="{{branch._id}}" [checked]="branch.checked" (change)="branch.checked = !branch.checked" (click)="selectBranch($event, branch, !branch.checked)"></td>
+                      </tr>
+                      </tbody>
+                  </table>
+                  </wizard-step>
+                  <wizard-step [title]="'Comfirm Details'" (onComplete)="onComplete($event)">
+                    <div [ngSwitch]="isCompleted">
+                      <div *ngSwitchDefault>
+                          <div class="row">
+                              <div class="col-xl-6">
+                            <h1>User Details</h1>
+                            <div class="form-group form-inline">
+                                <label class="myinput" for="firstname">First Name</label>
+                                <span>{{user_details.firstName}}</span>
+                            </div>
+                            <div class="form-group form-inline">
+                                <label class="myinput" for="firstname">Last Name</label>
+                                <span>{{user_details.lastName}}</span>
+                            </div><div class="form-group form-inline">
+                                <label class="myinput" for="firstname">Mobile Number</label>
+                                <span>{{user_details.msisdn}}</span>
+                            </div><div class="form-group form-inline">
+                                <label class="myinput" for="firstname">username</label>
+                                <span>{{user_details.username}}</span>
+                            </div><div class="form-group form-inline">
+                                <label class="myinput" for="firstname">E-mail</label>
+                                <span>{{user_details.email}}</span>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="col-xl-6">
+                                <h1>Assign Role</h1>
+                                <span *ngFor="let role of selectedRoles; let i = index;" class="row">{{role.name}}</span>
+                            </div>
+                            <div class="col-xl-6">
+                                <h1>Assign Branch</h1>
+                                <span>{{selectedBranch.name}}</span>
+                            </div>
+                        </div>
+                          </div>
+                        
+                      </div>
+                      <div *ngSwitchCase="true">
+                        <h4>Thank you! You have completed all the steps.</h4>
+                      </div>
+                    </div>
+                  </wizard-step>
+                </form-wizard>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" (click)="close()" >Cancel</button>
+          </div>
+        </div>
