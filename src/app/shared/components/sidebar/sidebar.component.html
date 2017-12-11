@@ -46,7 +46,10 @@
             <i class="fa fa-user-o"></i>{{ 'Users' | translate }}
         </a>
         <a class="list-group-item" [routerLink]="['/meeting-type']" [routerLinkActive]="['router-link-active']" >
-            <i class="fa fa-user-o"></i>{{ 'Meetig Type' | translate }}
+            <i class="fa fa-meetup"></i>{{ 'Meetig Type' | translate }}
+        </a>
+        <a class="list-group-item" [routerLink]="['/meeting']" [routerLinkActive]="['router-link-active']" >
+            <i class="fa fa-handshake-o"></i>{{ 'Meetings' | translate }}
         </a>
     </ul>
 </nav>

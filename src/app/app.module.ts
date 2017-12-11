@@ -14,6 +14,7 @@ import { DialogProfileComponent } from "./shared/components/profile/profile.comp
 import { NotificationComponent } from "./shared/components/notification/notification.component";
 import { AddUserComponent } from "./layout/users/add/add.component";
 import { AddMeetingTypeComponent } from "./layout/meeting-type/add/add.component";
+import { AddMeetingComponent } from "./layout/meeting/add/add.component";
 import { AuthGuard } from './shared';
 import { RequestService } from "./shared/services/request.service";
 import { FormWizardModule } from 'angular2-wizard';
@@ -32,7 +33,7 @@ export function HttpLoaderFactory(http: Http) {
 }
 @NgModule({
     declarations: [
-        AppComponent,DialogProfileComponent, AddUserComponent,NotificationComponent, AddMeetingTypeComponent
+        AppComponent,DialogProfileComponent, AddUserComponent,NotificationComponent, AddMeetingTypeComponent,AddMeetingComponent
     ],
     imports: [
         BrowserModule,
@@ -56,7 +57,7 @@ export function HttpLoaderFactory(http: Http) {
     ],
     providers: [AuthGuard, AuthenticationService,RequestService, DialogService,EqualPipe, {provide: MAT_PLACEHOLDER_GLOBAL_OPTIONS, useValue: {float: 'never'}}],
     bootstrap: [AppComponent],
-    entryComponents:[DialogProfileComponent, AddUserComponent,NotificationComponent, AddMeetingTypeComponent]
+    entryComponents:[DialogProfileComponent, AddUserComponent,NotificationComponent, AddMeetingTypeComponent, AddMeetingComponent]
 })
 export class AppModule {
 }
