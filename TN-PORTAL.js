@@ -9,7 +9,7 @@ let serveStatic = require('serve-static')
 let log4js = require('log4js');
 let fs = require('fs')
 let https = require('https');
-let h5bp = require('h5bp');
+// let h5bp = require('h5bp');
 let pagespeed = require('pagespeed');
 // var expressStaticGzip = require("express-static-gzip");
 
@@ -26,7 +26,7 @@ let time = new Date();
 // app.configure( function( ) {
     app.use( pagespeed.middleware( { debug: true } ));
 // }
-app.use(h5bp({ root: __dirname + '/dist' }));
+// app.use(h5bp({ root: __dirname + '/dist' }));
 app.set('view cache', true);
 // app.use("/", expressStaticGzip(__dirname + '/dist', { indexFromEmptyFile: false }));
 app.use(compression());
