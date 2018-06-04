@@ -8,7 +8,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ### Introduction
 Provides fast, reliable and extensible starter for the development of Angular projects.
 
-`smart-parts-portal` provides the following features:
+`smart-tn-portal` provides the following features:
 - Developed using boostrap-v4.0.0-beta.2
 - angular-v5.0.1
 - angular/cli-v1.5.0
@@ -25,8 +25,8 @@ Provides fast, reliable and extensible starter for the development of Angular pr
 
 In order to start the project use:
 ```bash
-$ git clone smart-parts-portal
-$ cd smart-parts-portal
+$ git clone smart-tn-portal
+$ cd smart-tn-portal
 # install the project's dependencies
 $ npm install
 # watches your files and uses livereload by default run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
