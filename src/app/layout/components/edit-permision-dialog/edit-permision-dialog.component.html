@@ -1,0 +1,40 @@
+<mat-dialog-content>
+<div class="jumbotron">
+    <h2 mat-dialog-title>Edit Permission!<i class="fas fa-times float-right" (click)="Close()"></i></h2>
+    <div class="row example-container">
+<div class="col-xl-4">
+  <form [formGroup]="searchForm" class="user-form" novalidate>
+    <mat-form-field >
+        <input matInput placeholder="Code" class="form-control" formControlName="code"/>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select placeholder="Category" [(value)]="permission.category">
+            <mat-option *ngFor="let _category of Category" (change)="onChange()" [value]="_category">{{_category}}</mat-option>
+          </mat-select>
+    </mat-form-field>
+    <mat-form-field >
+        <mat-select placeholder="Type" [(value)]="permission.type">
+            <mat-option *ngFor="let _type of Type" (change)="onChange()" [value]="_type">{{_type}}</mat-option>
+          </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select placeholder="Menu" [(value)]="permission.menu">
+            <mat-option *ngFor="let _menu of Menu" (change)="onChange()" [value]="_menu">{{_menu}}</mat-option>
+          </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-select placeholder="Channel" [(value)]="permission.channel">
+            <mat-option *ngFor="let _channel of Channel" (change)="onChange()" [value]="_channel">{{_channel}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div>
+      <button mat-button mat-raised-button [disabled]="isLoading" (click)="savePermission()">
+          <i class="fa fa-cog fa-spin" [hidden]="!isLoading"></i>
+          <span>Save</span>
+      </button>
+    </div>
+  </form>
+</div>
+</div>    
+</div>
+</mat-dialog-content>

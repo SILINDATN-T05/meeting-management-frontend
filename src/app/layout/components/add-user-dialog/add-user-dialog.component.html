@@ -1,0 +1,156 @@
+<mat-dialog-content>
+    <div class="jumbotron">
+        <h2 mat-dialog-title>Add User!<i class="fas fa-times float-right" (click)="Close()"></i></h2>
+        <mat-horizontal-stepper [linear]="true" #stepper="matHorizontalStepper">
+        <mat-step [stepControl]="searchForm">
+            <div class="row example-container">
+                <div class="col-xl-4">
+                <form [formGroup]="searchForm" class="user-form" novalidate>
+                    <ng-template matStepLabel>Capture Information</ng-template>
+                    <mat-form-field >
+                        <input matInput placeholder="First Name" minlength="2" class="form-control" formControlName="firstName" required/>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Last Name" minlength="2" class="form-control" formControlName="lastName" required/>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input type="number" matInput minlength="4" maxlength="15" placeholder="Mobile Number" class="form-control" formControlName="msisdn" required/>
+                    </mat-form-field>
+                    <!-- <mat-form-field>
+                        <input matInput placeholder="Username" class="form-control" formControlName="username" required/>
+                    </mat-form-field> -->
+                    <mat-form-field>
+                        <input type="email" matInput placeholder="E-mail" class="form-control" formControlName="email" required/>
+                    </mat-form-field>
+                    <div>
+                    <button mat-button [disabled]="searchForm.invalid" matStepperNext (click)="onStep1Next($event)">Next</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </mat-step>
+        <mat-step>
+            <div class="row example-container">
+
+                <div class="col-xl-4">
+                    <form class="user-form">
+                    <ng-template matStepLabel>Assign User Role</ng-template>
+                    <mat-form-field>
+                        <mat-select placeholder="Roles" [formControl]="selectedRoles" multiple>
+                            <mat-option *ngFor="let role of Roles" [value]="role._id">{{role.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                            <mat-select placeholder="Platform" [formControl]="selectedPlatform">
+                                <mat-option *ngFor="let platfrom of Platform" [value]="platfrom">{{platfrom}}</mat-option>
+                            </mat-select>
+                    </mat-form-field>
+                    <div>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button matStepperNext (click)="onStep2Next($event)">Next</button>
+                    </div>
+                    </form>
+                    </div>
+            </div>
+        </mat-step>
+        <mat-step>
+            <div class="row example-container">
+                <div class="col-xl-6">
+                    <ng-template matStepLabel>Assign branch</ng-template>
+                    <mat-slide-toggle
+                        class="example-margin"
+                        [color]="color"
+                        [checked]="checked"
+                        [disabled]="disabled"
+                        [(ngModel)]="checked">
+                             Insurer User?
+                    </mat-slide-toggle>
+                    <mat-form-field [hidden]="checked">
+                            <mat-select placeholder="Select Branch" [formControl]="selectedBranch">
+                                <mat-option *ngFor="let branch of Branches" [value]="branch._id">{{branch.NAME}}</mat-option>
+                            </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field [hidden]="!checked">
+                            <mat-select placeholder="Select Insurer" [formControl]="selectedInsurer">
+                                <mat-option *ngFor="let insurer of Insurers" [value]="insurer._id">{{insurer.WORKPROVIDER_ID}}</mat-option>
+                            </mat-select>
+                    </mat-form-field>
+                    
+                    <div>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button matStepperNext (click)="onStep3Next($event)">Next</button>
+                    </div>
+                </div>
+            </div>
+        </mat-step>
+        <mat-step>
+            <div class="row example-container">
+                <div class="user-form">
+                    <ng-template matStepLabel>Comfirm Details</ng-template>
+                    <div class="row" [hidden]="isCompleted">
+                    <div class="col-xl-6">
+                        <mat-list>
+                            <h3 mat-subheader>User Details</h3>
+                            <mat-list-item>
+                                <mat-icon mat-list-icon>folder</mat-icon>
+                                <h4 mat-line>First Name : {{user_details.firstName}}</h4>
+                            </mat-list-item>
+                            <mat-list-item>
+                                <mat-icon mat-list-icon>folder</mat-icon>
+                                <h4 mat-line>Last Name : {{user_details.lastName}}</h4>
+                            </mat-list-item>
+                            <mat-list-item>
+                                <mat-icon mat-list-icon>folder</mat-icon>
+                                <h4 mat-line>Mobile Number : {{user_details.msisdn}}</h4>
+                            </mat-list-item>
+                            <mat-list-item>
+                                <mat-icon mat-list-icon>folder</mat-icon>
+                                <h4 mat-line>UserName : {{user_details.username}}</h4>
+                            </mat-list-item>
+                            <mat-list-item>
+                                <mat-icon mat-list-icon>folder</mat-icon>
+                                <h4 mat-line>E-mail : {{user_details.email}}</h4>
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+                    <div class="col-xl-6">
+                        <mat-list>
+                            <h3 mat-subheader>Assigned Role</h3>
+                            <mat-list-item *ngFor="let role of selectedRoles.value; let i = index;">
+                                <mat-icon mat-list-icon>folder</mat-icon>
+                                <h4 mat-line>{{displayRole(role)}}</h4>
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+                    <div class="col-xl-6">
+                        <mat-list  [hidden]="checked">
+                            <h3 mat-subheader>Assigned Branch</h3>
+                            <mat-list-item>
+                                <mat-icon mat-list-icon>folder</mat-icon>
+                                <h4 mat-line>{{displayBranch(selectedBranch.value)}}</h4>
+                            </mat-list-item>
+                        </mat-list>
+                        <mat-list  [hidden]="!checked">
+                            <h3 mat-subheader>Assigned Insurer</h3>
+                            <mat-list-item>
+                                <mat-icon mat-list-icon>folder</mat-icon>
+                                <h4 mat-line>{{displayInsuer(selectedInsurer.value)}}</h4>
+                            </mat-list-item>
+                        </mat-list>
+                    </div>
+                    </div>
+                    <div class="row user-form" [hidden]="!isCompleted">
+                            <span>User {{user_details.firstName}} has been successfully added</span>
+                    </div>
+                    <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button [hidden]="isCompleted" (click)="onComplete($event)">Confirm</button>
+                    <button mat-button [hidden]="!isCompleted" (click)="Close()">Done</button>
+                    </div>
+                </div>
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>    
+    </div>
+</mat-dialog-content>

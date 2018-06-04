@@ -1,14 +1,33 @@
 <!doctype html>
-<html lang="en">
+    <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>SB Admin Angular 4 BS4</title>
+        <meta name="description" content="Autoboys parts portal system for all require part functinality">
+        <title>Parts Portal</title>
         <base href="/">
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
+    <script>
+        if (global === undefined) {
+            var global = window;
+        }
+    </script>
     <body>
-        <app-root></app-root>
+        <noscript>
+            <h3 style="color: #673ab7; font-family: Helvetica; margin: 2rem;">
+                Sorry, but app is not available without javascript
+            </h3>
+        </noscript>
+        <script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyDHW8PUZuGO-gdtFg9IkRFQGMkwqrABZ-8&libraries=places&language=en-US"></script>
+        <script data-jsd-embedded data-key="90e96162-98af-483f-bfae-04aeb0faeb9d" data-base-url="https://embedded-jsd.atlassian.io" src="https://embedded-jsd.atlassian.io/assets/embed.js"></script>
+        <app-root>
+            <div class="spinner">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
+        </app-root>
     </body>
 </html>

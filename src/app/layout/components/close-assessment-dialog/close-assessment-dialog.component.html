@@ -1,0 +1,29 @@
+<mat-dialog-content>
+<div class="jumbotron">
+        <h2 mat-dialog-title>Close Assessment<i class="fas fa-times float-right" (click)="Close()"></i></h2>
+        <div class="row example-container">
+    <div class="col-xl-4">
+        <form  [formGroup]="searchForm" class="user-form">
+            <span>Select Reason</span>
+            <mat-radio-group class="example-radio-group" [formControl]="selectedReason">
+              <mat-radio-button class="example-radio-button" *ngFor="let reason of Reasons" [value]="reason">
+                {{reason.name}}
+              </mat-radio-button>
+            </mat-radio-group>
+
+            <mat-form-field [hidden]="!selectedReason.value || selectedReason.value.id != 8">
+              <input matInput [matDatepicker]="picker2" placeholder="Contact Date" formControlName="contactDate">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+            <div>
+                <button mat-button mat-raised-button [disabled]="isLoading || !selectedReason.value" (click)="CloseAssessment()">
+                    <i class="fa fa-cog fa-spin" [hidden]="!isLoading"></i>
+                    <span>Save</span>
+                </button>
+            </div>
+        </form>
+      </div>
+</div>    
+</div>
+</mat-dialog-content>

@@ -1,0 +1,24 @@
+<mat-dialog-content>
+<div class="jumbotron">
+    <h2 mat-dialog-title>Remove User Role!<i class="fas fa-times float-right" (click)="Close()"></i></h2>
+    <div class="row example-container">
+    <div class="col-xl-4">
+        <form class="user-form">
+          <ng-template matStepLabel>Select Role</ng-template>
+          <span>For {{user_details.email}} User</span>
+          <mat-form-field>
+              <mat-select placeholder="Roles" [formControl]="selectedRole" multiple>
+                <mat-option *ngFor="let role of user_roles" [value]="role">{{displayRole(role)}}</mat-option>
+              </mat-select>
+          </mat-form-field>
+          <div>
+              <button mat-button mat-raised-button [disabled]="isLoading" (click)="RemoveUserRoles()">
+                  <i class="fa fa-cog fa-spin" [hidden]="!isLoading"></i>
+                  <span>Save</span>
+              </button>
+          </div>
+        </form>
+      </div>
+</div>
+</div>
+</mat-dialog-content>

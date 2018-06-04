@@ -6,13 +6,30 @@
 export const environment = {
   production: false,
   version: '(dev)',
-  serverUrl: 'http://localhost:9195/api/',
-  defaultLanguage: 'en-US',
-channel:"PORTAL",
-organizationID:"MEETINGS",
-application:"MEETING",
-  supportedLanguages: [
-    'en-US',
-    'fr-FR'
-  ]
+  match_engine: {
+      serverUrl: 'http://matching-engine:9096/api/',
+      defaultLanguage: 'en-US',
+      channel: 'PORTAL',
+      organizationID: 'MATCH-ENGINE',
+      application: 'MATCH_PORTAL',
+      supportedLanguages: [
+          'en-US',
+          'fr-FR',
+      ],
+  },
+  parts_portal: {
+      serverUrl: 'http://matching-engine:9095/',
+      defaultLanguage: 'en-US',
+      channel: 'PORTAL',
+      organizationID: 'PART-PORTALS',
+      application: 'PARTS_PORTAL',
+      supportedLanguages: [
+          'en-US',
+          'fr-FR',
+      ],
+  },
+  systems: [
+    'PART-PORTALS',
+    'MATCH-ENGINE',
+  ],
 };

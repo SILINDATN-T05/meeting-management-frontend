@@ -1,63 +1,65 @@
-import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
-import { Http, HttpModule } from '@angular/http';
+import { CommonModule } from '@angular/common';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
+import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NgbCarouselModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { MomentModule } from 'angular2-moment';
+import { DialogService } from 'ng2-bootstrap-modal';
+import { DropdownModule } from 'ng2-dropdown';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoginModule } from "./login/login.module";
-import { AuthenticationService, EqualPipe } from './core/authentication/authentication.service';
-import { BootstrapModalModule, DialogService } from 'ng2-bootstrap-modal';
-import { DialogProfileComponent } from "./shared/components/profile/profile.component";
-import { NotificationComponent } from "./shared/components/notification/notification.component";
-import { AddUserComponent } from "./layout/users/add/add.component";
-import { AddMeetingTypeComponent } from "./layout/meeting-type/add/add.component";
-import { AddMeetingComponent } from "./layout/meeting/add/add.component";
+import { AuthenticationService } from './core/authentication/authentication.service';
+import { CopyPartDialogModule } from './layout/components/copy-part-dialog/copy-part-dialog.module';
 import { AuthGuard } from './shared';
-import { RequestService } from "./shared/services/request.service";
-import { FormWizardModule } from 'angular2-wizard';
-import { MatDialogModule, MAT_PLACEHOLDER_GLOBAL_OPTIONS} from '@angular/material';
-import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
-import { IMultiSelectOption } from 'angular-2-dropdown-multiselect';
-import { AngularMultiSelectModule } from "angular2-multiselect-checkbox/angular2-multiselect-dropdown";
-// import { AngularMultiSelectModule } from '';
+import { DialogProfileComponent } from './shared/components/';
+import { DemoMaterialModule } from './shared/modules/materialModule';
+import { PagerService } from './shared/services/pager.service';
+import { RequestService } from './shared/services/request.service';
 
-
-// AoT requires an exported function for factories
-export function HttpLoaderFactory(http: Http) {
-    // for development
-    // return new TranslateHttpLoader(http, '/start-angular/SB-Admin-BS4-Angular-4/master/dist/assets/i18n/', '.json');
-    return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
+export function createTranslateLoader(http: HttpClient) {
+    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
 @NgModule({
-    declarations: [
-        AppComponent,DialogProfileComponent, AddUserComponent,NotificationComponent, AddMeetingTypeComponent,AddMeetingComponent
-    ],
     imports: [
+        CommonModule,
+        NgbCarouselModule.forRoot(),
+        NgbModule.forRoot(),
+        NgIdleKeepaliveModule.forRoot(),
         BrowserModule,
+        AngularFontAwesomeModule,
         BrowserAnimationsModule,
-        FormsModule,
-        MultiselectDropdownModule,
-        AngularMultiSelectModule,
-        ReactiveFormsModule ,
+        HttpClientModule,
+        DropdownModule,
         HttpModule,
-        FormWizardModule,
-        MatDialogModule,
-        AppRoutingModule,
-        BootstrapModalModule,
+        MomentModule,
+        CopyPartDialogModule,
+        DemoMaterialModule,
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [Http]
-            }
-        })
+                useFactory: createTranslateLoader,
+                deps: [HttpClient],
+            },
+        }),
+        ToastrModule.forRoot({
+            timeOut: 10000,
+            positionClass: 'toast-top-right',
+            preventDuplicates: true,
+          }),
+        AppRoutingModule,
     ],
-    providers: [AuthGuard, AuthenticationService,RequestService, DialogService,EqualPipe, {provide: MAT_PLACEHOLDER_GLOBAL_OPTIONS, useValue: {float: 'never'}}],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+    declarations: [AppComponent, DialogProfileComponent],
+    providers: [AuthGuard, AuthenticationService, RequestService, DialogService, PagerService, ToastrService],
     bootstrap: [AppComponent],
-    entryComponents:[DialogProfileComponent, AddUserComponent,NotificationComponent, AddMeetingTypeComponent, AddMeetingComponent]
+    entryComponents: [DialogProfileComponent],
 })
-export class AppModule {
-}
+export class AppModule {}

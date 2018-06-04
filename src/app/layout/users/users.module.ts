@@ -1,18 +1,23 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { ReactiveFormsModule } from '@angular/forms';
-import { UsersComponent } from './users.component';
-import { UsersRoutingModule } from './users-routing.module';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import { FilterFormModule } from '../../shared/custom';
+import { DemoMaterialModule } from '../../shared/modules/materialModule';
 import { PageHeaderModule } from './../../shared';
-
+import { UsersRoutingModule } from './users-routing.module';
+import { UsersComponent } from './users.component';
 @NgModule({
     imports: [
         CommonModule,
         UsersRoutingModule,
         PageHeaderModule,
-        ReactiveFormsModule
+        DemoMaterialModule,
+        ConfirmationPopoverModule.forRoot({
+            confirmButtonType: 'danger', // set defaults here
+          }),
+        FilterFormModule,
     ],
-    declarations: [UsersComponent]
+    declarations: [UsersComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class UsersModule { }

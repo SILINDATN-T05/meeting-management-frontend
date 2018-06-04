@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { environment } from '../../../environments/environment';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthenticationService, Credentials } from '../../core/authentication/authentication.service';
-import * as _ from "lodash";
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-
+import { Headers, Http } from '@angular/http';
+import { Router } from '@angular/router';
+import * as _ from 'lodash';
+import { environment } from '../../../environments/environment';
+import { Logger } from '../../core/logger.service';
+import { ICredentials } from '../interfaces/response.interface';
+const log = new Logger('Request-service');
+import { ToastrService } from 'ngx-toastr';
+import { map } from 'rxjs/operators';
 /**
  * Provides a base for authentication workflow.
  * The Credentials interface as well as login/logout methods should be replaced with proper implementation.
@@ -15,31 +15,50 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class RequestService {
 
-  private _credentials: Credentials;
+  // private _credentials: ICredentials;
   body = {
-    channel:environment.channel,
-    application:environment.application,
-    organizationID:environment.organizationID
-  }
-  constructor(private http:Http, private router:Router) {
+    channel: environment.parts_portal.channel,
+    application: environment.parts_portal.application,
+    organizationID: environment.parts_portal.organizationID,
+  };
+  constructor(private http: Http, private router: Router, public toastr:  ToastrService) {
   }
 
-  PostRequest(url, data, callback){
-    let headers = new Headers({'x-access-token':sessionStorage.getItem('token')});
-    _.merge(data, this.body);
-    this.http.post(environment.serverUrl+url, data, {headers:headers})
-    .map(response => response.json())
-    .subscribe((res:Credentials) =>{
-      if(res.code==='49'){
-        this.router.navigate(['/login'], { replaceUrl: true });
-      }else{
-        if(res.data['data'] && res.data['data']!=undefined){
+  PostRequest(url, data, callback, dialogRef = null) {
+        const vm = this;
+        const headers = new Headers({'x-access-token': sessionStorage.getItem('token'), 'Vary': 'Accept-Encoding'});
+        _.merge(data, this.body);
+        this.http.post(url, data, {headers})
+    .pipe(map((response) => response.json()))
+    .subscribe((res: ICredentials) => {
+      if (res.code === '49') {
+        localStorage.setItem('isLoggedin', 'false');
+        vm.toastr.error('Server Session has Expired. Please login again', 'Request ERROR',  {
+          timeOut: 5000,
+        });
+        try {
+                    const jsd_widget = document.getElementById('jsd-widget');
+                    jsd_widget.style.opacity = '0';
+                } catch (err) {
+                    log.debug(err.message);
+                }
+        if (dialogRef !== null) {
+                  dialogRef.close();
+                  vm.router.navigate(['/login'], { replaceUrl: true });
+                }
+        vm.router.navigate(['/login'], { replaceUrl: true });
+      } else {
+        try {
+          if (res.data['data'] && res.data['data'] !== undefined) {
           callback(res.data);
-        }else{
+        } else {
           callback(res);
         }
+      } catch (e) {
+        callback(res);
       }
-    })
+      }
+    });
   }
 
 }

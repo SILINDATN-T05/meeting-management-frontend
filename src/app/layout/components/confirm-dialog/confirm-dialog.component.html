@@ -1,0 +1,6 @@
+<h2 mat-dialog-title>{{dialogTitle}} <i class="fas fa-times float-right" (click)="Close()"></i></h2>
+<mat-dialog-content>{{dialogMessage}}</mat-dialog-content>
+<mat-dialog-actions class="row">
+  <button mat-icon-button mat-raised-button (click)="Close()">No</button>
+  <button mat-icon-button mat-raised-button (click)="doAction()">Yes</button>
+</mat-dialog-actions>

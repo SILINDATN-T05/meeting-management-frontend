@@ -3,7 +3,7 @@ $topnav-background-color: #222;
     display: block;
 }
 .login-page {
-    background-image: url('/assets/images/kick-off-meeting.jpg');
+    background-image: url('/assets/images/carengen.jpeg');
     position: absolute;
     top: 0;
     left: 0;
@@ -15,7 +15,7 @@ $topnav-background-color: #222;
     background-attachment: fixed;
     background-size:  cover;
     background-color: #999;
-    //background: $topnav-background-color;
+    background: $topnav-background-color;
     text-align: center;
     color: #fff;
     padding: 3em;
@@ -100,6 +100,13 @@ $topnav-background-color: #222;
     bottom: 0;
     left: 0;
     right: 0;
+    background-image: url('/assets/images/carengen.jpeg');
+    overflow: auto;
+    background-position: center center;
+    background-repeat:  no-repeat;
+    background-attachment: fixed;
+    background-size:  cover;
+    background-color: #999;
 }
 
 .login-box {
@@ -122,21 +129,25 @@ $topnav-background-color: #222;
 // }
 #login_container{
     box-shadow:
-        0 0 0 3px #6666ff,
-        0 0 0 6px #3333ff,
-        0 0 0 9px #0000ff,
-        0 0 0 12px #0000cc,
-        0 0 0 15px #000099;
+        0 0 0 3px #bfbfbf,
+        0 0 0 6px #a6a6a6,
+        0 0 0 9px #8c8c8c,
+        0 0 0 12px #737373,
+        0 0 0 15px #595959;
 }
 
 strong{
     padding: 20px;
     margin: 20px;
-    font-size: 14px;
+    font-size: 28px;
+    // font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-weight: bolder;
     color: black;
-    font-style: italic;
 }
-#meeting{
-    color: #0000cc!important;
+.input-group-prepend .input-group-text {
+    width: 160px;
+}
+.mat-form-field {
+    width: 100% !important;
+    color: #000000 !important;
 }

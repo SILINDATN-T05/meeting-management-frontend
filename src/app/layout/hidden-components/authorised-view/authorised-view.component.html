@@ -1,0 +1,178 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Authorised View'" [icon]="'fa-table'"></app-page-header>
+
+    <h3 [hidden]="selectedAssessment.CSC === user.firstName + '  ' + user.lastName"> <i class="fas fa-lock"></i> Locked By {{selectedAssessment.CSC}}</h3>
+    <div class="row">
+        <div class="col-xl-12 text-xs-center">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xl-4 text-xs-center">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <span class="diplay">Date</span>
+                                    <span>{{selectedAssessment.CREATE_DATE | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}}</span>
+                                </div>
+                                <div class="card-body">
+                                    <span class="diplay">Request Number : </span>
+                                    <span>{{selectedAssessment.REQUEST_ID}}</span>
+                                </div>
+                                <div class="card-body">
+                                    <span class="diplay">Claim Number : </span>
+                                    <span>{{selectedAssessment.CLAIM_NO}}</span>
+                                </div>
+                                <div class="card-body">
+                                    <span class="diplay">Motor Body Repairer : </span>
+                                    <span>{{displayMBRWORKPROVIDER(selectedAssessment.MBR_ID)}}</span>
+                                </div>
+                                <div class="card-body">
+                                    <span class="diplay">Branch : </span>
+                                    <span>{{displayBranch(selectedAssessment.OUTLET_ID)}}</span>
+                                </div>
+                                <div class="card-body">
+                                    <span class="diplay">Vehicle Registration : </span>
+                                    <span>{{selectedAssessment.REGISTRATION}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 text-xs-center">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <span class="diplay">Vehicle Make : </span>
+                                    <span>{{requestAdditional.VEHICLE_MAKE }}</span>
+                                </div>
+                                <div class="card-body">
+                                    <span class="diplay">Vehicle Range : </span>
+                                    <span>{{requestAdditional.MODELSPEC}}</span>
+                                </div>
+                                <div class="card-body">
+                                    <span class="diplay">VIN : </span>
+                                    <span>{{selectedAssessment.VIN}}</span>
+                                </div>
+                                <div class="card-body">
+                                    <span class="diplay">Vehicle Year Model : </span>
+                                    <span>{{requestAdditional.MODELYEAR}}</span>
+                                </div>
+                                <div class="card-body">
+                                    <span class="diplay">Submitted By : </span>
+                                    <span>{{requestAdditional.SUBMITTEDBY}}</span>
+                                </div>
+                                <div class="card-body">
+                                    <span class="diplay">Current Status : </span>
+                                    <span>{{ displayStatus()}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 text-xs-center">
+                            <div class="card mb-3 button-padding">
+                                <div class="card-body">
+                                    <button class="button-attachment" mat-raised-button [disabled]="isFilesLoading" (click)="assessmentPdf()">View PDF</button>
+                                </div>
+                                <div class="card-body">
+                                    <button mat-raised-button class="button-attachment" [disabled]="isFilesLoading" (click)="prepareImageSlider()">View Images</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12 text-xs-center">
+            <div class="card mb-3">
+                <div class="card-body">
+
+                    <div class="example-container mat-elevation-z8">
+                        <mat-table #table [dataSource]="dataSource" matSort>
+                            <ng-container matColumnDef="PART_ID">
+                                <mat-header-cell *matHeaderCellDef> Matched Part ID </mat-header-cell>
+                                <mat-cell *matCellDef="let part"> {{ part.PART_ID }} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="PART_DESCRIPTION">
+                                <mat-header-cell *matHeaderCellDef> Part Description </mat-header-cell>
+                                <mat-cell *matCellDef="let part"> {{part.PART_DESCRIPTION}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="PART_PRICE">
+                                <mat-header-cell *matHeaderCellDef> Matched Part Price</mat-header-cell>
+                                <mat-cell *matCellDef="let part"> {{part.PART_PRICE}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="AUDA_PART_ID">
+                                <mat-header-cell *matHeaderCellDef> Part OE </mat-header-cell>
+                                <mat-cell *matCellDef="let part"> {{part.AUDA_PART_ID}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="WORKPROVIDER_AUTHORISED">
+                                <mat-header-cell *matHeaderCellDef> Authorised </mat-header-cell>
+                                <mat-cell *matCellDef="let part"> {{part.WORKPROVIDER_AUTHORISED}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="AUTHORISED_DATE">
+                                <mat-header-cell *matHeaderCellDef> Authorised Date </mat-header-cell>
+                                <mat-cell *matCellDef="let part"> {{part.AUTHORISED_DATE | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="WORKPROVIDER_APPROVED">
+                                <mat-header-cell *matHeaderCellDef> Approved </mat-header-cell>
+                                <mat-cell *matCellDef="let part"> {{part.WORKPROVIDER_APPROVED}} </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="APPROVED_DATE">
+                                <mat-header-cell *matHeaderCellDef> Approved Date </mat-header-cell>
+                                <mat-cell *matCellDef="let part"> {{part.APPROVED_DATE | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}} </mat-cell>
+                            </ng-container>
+                          <mat-header-row *matHeaderRowDef="data.columns"></mat-header-row>
+                          <mat-row *matRowDef="let row; columns: data.columns;" matRipple class="element-row"></mat-row>
+                        </mat-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12 text-xs-center">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xl-4 text-xs-center float-left">
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <form class="example-form">
+                                        <mat-form-field class="example-form-field d-block">
+                                            <input name="match" matInput placeholder="Autoboys Parts (Excl)" [(ngModel)]="matched_price_show" disabled>
+                                        </mat-form-field>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-4 text-xs-center float-right">
+                            <div class="card mb-3">
+                                <div class="card-body float-right">
+                                    <form class="example-form">
+                                        <mat-form-field class="d-block">
+                                            <textarea name="comment" matInput placeholder="Comments" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="15"
+                                                [(ngModel)]="comments"></textarea>
+                                        </mat-form-field>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12 text-xs-center">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="float-left col-xl-4">
+                        <button mat-raised-button color="primary" class="float-left">View Comments</button>
+                    </div>
+                    <div class="float-right col-xl-4">
+                        <button mat-raised-button color="primary" [disabled]="checkPermission('OVERRIDE_STATUS')" (click)="closeAssessment()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

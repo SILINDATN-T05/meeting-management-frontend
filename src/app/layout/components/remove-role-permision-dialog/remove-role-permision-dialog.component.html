@@ -1,0 +1,24 @@
+<mat-dialog-content>
+<div class="jumbotron">
+    <h2 mat-dialog-title>Remove Role Permissions!<i class="fas fa-times float-right" (click)="Close()"></i></h2>
+    <div class="row example-container">
+    <div class="col-xl-4">
+        <form class="user-form">
+          <ng-template matStepLabel>Select Permissions</ng-template>
+          <span>For {{role_details.name}} Role</span>
+          <mat-form-field>
+              <mat-select placeholder="Permissions" [formControl]="selectedPermissions" multiple>
+                <mat-option *ngFor="let permission of role_permissions" [value]="permission">{{displayPermission(permission)}}</mat-option>
+              </mat-select>
+          </mat-form-field>
+          <div>
+              <button mat-button mat-raised-button [disabled]="isLoading" (click)="RemoveRolePermissions()">
+                  <i class="fa fa-cog fa-spin" [hidden]="!isLoading"></i>
+                  <span>Save</span>
+              </button>
+          </div>
+        </form>
+      </div>
+</div>
+</div>
+</mat-dialog-content>

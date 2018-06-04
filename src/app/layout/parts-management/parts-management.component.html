@@ -1,0 +1,108 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Parts Management'" [icon]="'fa-table'"></app-page-header>
+
+    <form (ngSubmit) = "getPart()"  [formGroup]="searchForm" novalidate class="form-inline">
+            <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">SearchBy</span>
+                    </div>
+                    <!-- <span class="input-group-addon">@</span> -->
+                    <select name="searchby" class="form-control" formControlName="searchBy">
+                        <option *ngFor="let column of data.column; let i = index" value="{{column.field}}" [hidden]="!column.filter">{{column.name}}</option>
+                    </select>
+                </div>
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon1">Search Value</span>
+                    </div>
+                    <!-- <span class="input-group-addon">@</span> -->
+                  <input name="searchvalue" class="form-control" formControlName="searchValue">
+                </div>
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-secondary" [disabled]="isLoading">
+                        <i class="fa fa-spinner fa-spin" [hidden]="!isLoading"></i>
+                        <span>Search</span>
+                    </button>
+                </div>
+    </form>
+
+
+    <div class="row">
+
+        <div class="col-xl-12">
+            <div class="card-block table-responsive">
+                <table class="table">
+                    <tbody>
+                    <tr *ngFor="let part of data.content; let i = index">
+
+                        <td><mat-card>
+                            <mat-card-title>
+                                <div class="row">PART ID : {{part.PART_ID}}</div>
+                                <div class="row">Part Standard : {{displayStandard(part.PART_STANDARD)}}</div>
+                                <div class="row">Part Description: {{part.PART_DESCRIPTION}}</div>
+                                <div class="row">PAC CODE: {{part.PAC_ID}}</div>
+                            </mat-card-title>
+                            <mat-card-content>
+                                <table class="table">
+                                    <thead class="thead-inverse">
+                                    <tr>
+                                    <th >OE</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let oe of part.OE_ARRAY; let i = index">
+                                        <td>{{oe}}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </mat-card-content>
+                            <mat-card-actions align="start">
+                                    <button mat-icon-button [matMenuTriggerFor]="menu">
+                                        <i class="fa fa-bars" aria-hidden="true"></i> <span> Manage</span>
+                                    </button>
+                                    <mat-menu #menu="matMenu">
+                                        <button mat-menu-item (click)="copyPart(part)">
+                                            <i class="fa fa-clone" aria-hidden="true"></i>
+                                            <span>Copy Part</span>
+                                        </button>
+                                        <button mat-menu-item (click)="prepareLinkOE(part)">
+                                            <i class="fa fa-link" aria-hidden="true"></i>
+                                            <span>Link OE</span>
+                                        </button>
+                                        <button mat-menu-item (click)="prepareUnlinkOE(part)">
+                                                <i class="fa fa-link" aria-hidden="true"></i>
+                                            <span>Unlink OE</span>
+                                        </button>
+                                        <button mat-menu-item (click)="updatepartStandard(part)">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            <span>Update Part Standard</span>
+                                        </button>
+                                        <button mat-menu-item (click)="updatepartDescription(part)">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            <span>Update Part Description</span>
+                                        </button>
+                                    </mat-menu>
+                            </mat-card-actions>
+                            <p>&nbsp;</p>
+                            <mat-card-footer></mat-card-footer>
+                        </mat-card></td>
+                    </tr>
+                    <tr *ngIf="data.content.length<1">
+                        <mat-card>
+                            <mat-card-title> <div class="row"> No Part(s) Found</div> </mat-card-title>
+                        </mat-card>
+                    </tr>
+                    </tbody>
+                </table>
+                <!-- pager -->
+        <mat-paginator *ngIf="data.content.length > 0" [length]="length"
+                [pageSize]="pageSize"
+                [pageSizeOptions]="pageSizeOptions"
+                (page)="paginationEvent($event)">
+        </mat-paginator>
+
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,47 @@
+.mat-form-field {
+    padding: 15px !important;
+}
+
+.example-container {
+    display: flex;
+    flex-direction: column;
+    min-width: 300px;
+}
+
+.sub-table-container {
+    padding-left: 10;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.mat-table {
+    overflow: auto;
+    max-height: 100%;
+}
+
+.element-row {
+    position: relative;
+}
+
+.element-row:not(.expanded) {
+    cursor: pointer;
+}
+
+.element-row:not(.expanded):hover {
+    background: gray !important;
+}
+
+.element-row.expanded {
+    background: lightblue !important;
+}
+
+.table-header {
+    min-height: 64px;
+    padding: 8px 24px 0;
+}
+
+.menu-form-field {
+    width: 200px;
+    margin: 5px;
+  }
+

@@ -1,43 +1,78 @@
+<!-- Filter clear button Template -->
+<ng-template #filterClearTmpl>
+    <button mat-raised-button color="primary" (click)="clearFilterView()">Clear Results</button>
+</ng-template>
 <div [@routerTransition]>
     <app-page-header [heading]="'Users'" [icon]="'fa-table'"></app-page-header>
-
-    <form (ngSubmit) = "GetUsers()"  [formGroup]="searchForm" novalidate class="form-inline">
-        <div class="form-group">
-                <label for="searchby">SearchBy</label>
-                <select name="searchby" class="form-control" formControlName="searchBy">
-                    <option value="">All</option>
-                    <option *ngFor="let column of data.column; let i = index" value="{{column.field}}" [hidden]="!column.filter">{{column.name}}</option>
-                </select>
-        </div>
-    <div class="form-group">
-        <label for="searchvalue">Search Value</label>
-        <input name="searchvalue" class="form-control" formControlName="searchValue">
-    </div>
-    <button type="submit" class="btn btn-secondary">Search</button>
-
-    </form>
-    <button id="adduser" (click)="AddUser()" class="btn btn-secondary">Add User</button>
-    
     <div class="row">
-        <div class="card-block table-responsive">
-            <table class="table">
-                <thead class="thead-inverse">
-                <tr>
-                    <th *ngFor="let column of data.column; let i = index">{{column.name}}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let user of data.content; let i = index">
-                    <th scope="row">{{i+1}}</th>
-                    <td>{{user.firstName}}</td>
-                    <td>{{user.lastName}}</td>
-                    <td>{{user.username}}</td>
-                    <td>{{user.branch.name}}</td>
-                    <td>{{user.status}}</td>
-                    <td><i class="fa fa-tasks"></i></td>
-                </tr>
-                </tbody>
-            </table>
+        <div class="col-xl-12">
+            <div class="example-container mat-elevation-z8">
+                <div class="table-header">
+                    <ng-container *ngIf="filterProps.showFilterClearButton">
+                        <ng-container *ngTemplateOutlet="filterClearTmpl;"></ng-container>
+                    </ng-container>
+                    <button mat-button mat-raised-button id="adduser" (click)="AddUser()" class="btn btn-secondary">Add User</button>
+                </div>
+                <mat-table #table [dataSource]="dataSource" matSort>
+                    <ng-container matColumnDef="firstname">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'firstName'" [icon]="'filter_list'" [filterName]="'First Name'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.firstName}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="lastname">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'lastName'" [icon]="'filter_list'" [filterName]="'Last Name'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.lastName}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="username">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'username'" [icon]="'filter_list'" [filterName]="'Username'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.username}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="msisdn">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'msisdn'" [icon]="'filter_list'" [filterName]="'Cell Number'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.msisdn}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="branch">
+                        <mat-header-cell *matHeaderCellDef>
+                            <!-- columnID breaks the naming pattern because the brach retrieving routine: See mountain code -->
+                            <app-filter-form [columnID]="'NAME'" [icon]="'filter_list'" [filterName]="'Branch Name'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{displayBranch(element.branch)}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'status'" [icon]="'filter_list'" [filterName]="'Status'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.STATUS}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="manage">
+                        <mat-header-cell *matHeaderCellDef> Manage </mat-header-cell>
+                        <mat-cell *matCellDef="let user">
+                            <mat-menu #appMenu="matMenu">
+                                <button mat-menu-item *ngIf="user.STATUS==='ACTIVE'" (click)="DeactivateUser(user, i)">{{ 'Deactivate' }}</button>
+                                <button mat-menu-item *ngIf="user.STATUS==='INACTIVE'" (click)="ActivateUser(user, i)">{{ 'Activate' }}</button>
+                                <button mat-menu-item (click)="EditInformation(user)">{{ 'Edit Information' }}</button>
+                                <button mat-menu-item (click)="ChangeUsername(user)">{{ 'Change Username' }}</button>
+                                <button mat-menu-item (click)="ReissuePassword(user)"> {{ 'Re-issue password' }}</button>
+                                <button mat-menu-item (click)="AssignRole(user)"> {{ 'Assign Role' }}</button>
+                                <button mat-menu-item (click)="InvokeRole(user)"> {{ 'Invoke Role' }}</button>
+                            </mat-menu>
+                            <button mat-icon-button mat-button [matMenuTriggerFor]="appMenu">
+                                <i class="fa fa-bars fa-2x"></i>
+                            </button>
+                        </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; let i = index; columns: tableColumns;"></mat-row>
+                </mat-table>
+            </div>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"></mat-paginator>
         </div>
     </div>
 </div>

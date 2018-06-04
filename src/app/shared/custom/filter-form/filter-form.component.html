@@ -1,0 +1,26 @@
+<div class="filter-header">
+  <ng-container class="menu-form-field">
+    <span mat-icon-button class="filter-label" mat-sort-header>{{filterName}}</span>
+
+    <i *ngIf="enabled" class="fa fa-filter filter-icon" aria-label="Filter options" [matMenuTriggerFor]="menu" (click)="resetParameters()"></i>
+
+    <mat-menu #menu="matMenu" style="max-width: 240px!important;">
+      <mat-form-field class="menu-form-field">
+        <mat-select class="menu-form-field" placeholder="Select filter mode" [(ngModel)]="selectedValue" name="food" (click)="stopPropagation($event)">
+          <mat-option class="menu-form-field" *ngFor="let type of filterTypes" [value]="type.value">
+            {{type.viewValue}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="menu-form-field" *ngIf='selectedValue' (click)="stopPropagation($event)">
+        <input class="menu-form-field" #filterInput matInput type="text" placeholder="Show items with..." [(ngModel)]="filterFieldValue"
+          (input)="onfilterFieldTextChange($event.target.value)" />
+        <button class="menu-form-field" mat-button *ngIf="filterFieldValue" matSuffix mat-icon-button aria-label="Clear" (click)="filterFieldValue = ''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+      <br>
+      <button mat-raised-button class="menu-form-field" color="primary" *ngIf='filterBtnEnable' (click)="SubmitFilter()">Filter</button>
+    </mat-menu>
+  </ng-container>
+</div>

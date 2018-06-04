@@ -1,0 +1,70 @@
+<!-- Filter clear button Template -->
+<ng-template #filterClearTmpl>
+    <button mat-raised-button color="primary" (click)="clearFilterView()">Clear Results</button>
+</ng-template>
+<div [@routerTransition]>
+    <app-page-header [heading]="'Application Management'" [icon]="'fa-table'"></app-page-header>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="example-container mat-elevation-z8">
+                <div class="table-header">
+                    <ng-container *ngIf="filterProps.showFilterClearButton">
+                        <ng-container *ngTemplateOutlet="filterClearTmpl;"></ng-container>
+                    </ng-container>
+                    <button mat-button mat-raised-button (click)="AddApplication()" class="btn btn-secondary">Add Application</button>
+                </div>
+                <mat-table #table [dataSource]="dataSource" matSort>
+                    <ng-container matColumnDef="code">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'code'" [icon]="'filter_list'" [filterName]="'Code'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.code}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="name">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'name'" [icon]="'filter_list'" [filterName]="'Name'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="description">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'description'" [icon]="'filter_list'" [filterName]="'Description'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="channel">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'channel'" [icon]="'filter_list'" [filterName]="'Platform'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.channel}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="organizationID">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'organizationID'" [icon]="'filter_list'" [filterName]="'System'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.organizationID}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="manage">
+                        <mat-header-cell *matHeaderCellDef> Manage </mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                            <mat-menu #appMenu="matMenu">
+                                <button mat-menu-item (click)="EditInformation(element)">{{ 'Edit Information' }}</button>
+                                <button mat-menu-item (click)="AddPermission(element)"> {{ 'Add Permission' }}</button>
+                                <button mat-menu-item (click)="RemovePermission(element)"> {{ 'Remove Permission' }}</button>
+                            </mat-menu>
+                            <button mat-icon-button mat-button [matMenuTriggerFor]="appMenu">
+                                <i class="fa fa-bars fa-2x"></i>
+                            </button>
+                        </mat-cell>
+                    </ng-container>
+
+
+                    <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: tableColumns;"></mat-row>
+                </mat-table>
+            </div>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"></mat-paginator>
+        </div>
+    </div>
+</div>

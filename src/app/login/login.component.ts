@@ -1,40 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Headers, Http} from '@angular/http';
 import { Router } from '@angular/router';
-import { routerTransition } from '../router.animations';
-import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import * as _ from 'lodash';
+import { ToastrService } from 'ngx-toastr';
+import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthenticationService, Credentials } from '../core/authentication/authentication.service';
+import { AuthenticationService } from '../core/authentication/authentication.service';
 import { Logger } from '../core/logger.service';
-import * as _ from "lodash";
-import { NotificationComponent } from "./../shared/components/notification/notification.component";
-import { DialogService } from "ng2-bootstrap-modal";
-
+import { routerTransition } from '../router.animations';
+import { ICredentials } from '../shared/interfaces/response.interface';
 const log = new Logger('Login');
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
-    animations: [routerTransition()]
+    animations: [routerTransition()],
 })
 export class LoginComponent implements OnInit {
 
     version: string = environment.version;
     error: string = null;
+    isReissue = false;
     loginForm: FormGroup;
     isLoading = false;
+    hide = true;
+    isRefresh = false;
     body = {
-        channel:environment.channel,
-        application:environment.application,
-        organizationID:environment.organizationID
-    }
+        channel: environment.parts_portal.channel,
+        application: environment.parts_portal.application,
+        organizationID: environment.parts_portal.organizationID,
+    };
+    Username = 'Enter username';
+    Password = 'Enter password';
 
     constructor(public router: Router,
-        private formBuilder: FormBuilder,
-        private http:Http,
-        private auth:AuthenticationService,
-        private dialogService:DialogService) {
+                private formBuilder: FormBuilder,
+                private http: Http,
+                private auth: AuthenticationService,
+                public toastr:  ToastrService,
+                vcr: ViewContainerRef) {
     }
 
     ngOnInit() {
@@ -42,62 +48,78 @@ export class LoginComponent implements OnInit {
         this.getToken();
     }
 
-    // onLoggedin() {
-    //     localStorage.setItem('isLoggedin', 'true');
-    // }
-    getToken(){
-        this.http.post(environment.serverUrl+'createSession/',this.body)
-        .map(response => response.json())
-        .subscribe(res =>{
-          console.log(res)
-          sessionStorage.setItem('token',res['token']);
-        })
-      }
-      onLoggedin() {
-          this.isLoading = true;
-          let headers = new Headers({'x-access-token':sessionStorage.getItem('token')});
-          this.loginForm.value['action'] = 'LOGIN';
-          _.merge(this.loginForm.value, this.body);
-          this.http.post(environment.serverUrl+'service/',this.loginForm.value, {headers:headers})
-          .map(response => response.json())
-          .subscribe((res:Credentials) =>{
-            console.log(res)
-            this.loginForm.markAsPristine();
-            this.isLoading = false;
-            if(res.code==='00'){
-              sessionStorage.setItem('user',JSON.stringify(res.data['user']));
-              sessionStorage.setItem('permissions',JSON.stringify(res.data['permissions']));
-              this.auth.setCredentials(this.loginForm.value, this.loginForm.value.remember);
-              log.debug(`${this.loginForm.value.username} successfully logged in`);
-              this.router.navigate(['/dashboard'], { replaceUrl: true });
-              localStorage.setItem('isLoggedin', 'true');
-            }else{
-              log.debug(`Login error: ${res.message}`);
-              switch(res.message){
-                case '#auth_handler.auth.status.REISSUE':
-                  this.notification('NOTE', 'you logged in using a one time passsword, Please change your password.');
-                  break;
-                default:
-                  this.notification('ERROR', 'Technical error has occured, please try again or contact your system administrator');
-              }
-            }
-          })
-      }
-      notification(title, message){
-        let disposable = this.dialogService.addDialog(NotificationComponent, {
-          title:title, 
-          message:message})
-          .subscribe((isConfirmed)=>{
-              //We get dialog result
-            console.log(isConfirmed)
-          });
-      }
-      private createForm() {
-        this.loginForm = this.formBuilder.group({
-          username: ['', Validators.required],
-          password: ['', Validators.required],
-          remember: false
+    getToken() {
+        this.http.post('api/createSession/', this.body)
+        .pipe(map((response) => response.json()))
+        .subscribe((res) => {
+          sessionStorage.setItem('token', res['token']);
+          if (this.isRefresh) {
+            this.onLoggedin();
+          }
         });
-      }
+    }
+
+    onLoggedin() {
+        this.isLoading = true;
+        this.isReissue = false;
+        this.isRefresh = false;
+        const headers = new Headers({'x-access-token': sessionStorage.getItem('token'), 'Vary': 'Accept-Encoding'});
+        this.loginForm.value['action'] = 'LOGIN';
+        _.merge(this.loginForm.value, this.body);
+        const vm = this;
+        vm.http.post('api/service/', vm.loginForm.value, {headers})
+        .pipe(map((response) => response.json()))
+        .subscribe((res: ICredentials) => {
+          vm.loginForm.markAsPristine();
+          vm.isLoading = false;
+          if (res.code === '00') {
+            sessionStorage.setItem('user', JSON.stringify(res.data['user']));
+            sessionStorage.setItem('permissions', JSON.stringify(res.data['permissions']));
+            sessionStorage.setItem('request_major_status', JSON.stringify(res.data['request_major_status']));
+            sessionStorage.setItem('request_minor_status', JSON.stringify(res.data['request_minor_status']));
+            sessionStorage.setItem('request_part_status', JSON.stringify(res.data['request_part_status']));
+            vm.auth.setCredentials(vm.loginForm.value, vm.loginForm.value.remember);
+            log.debug(`${vm.loginForm.value.username} successfully logged in`);
+            vm.router.navigate(['/dashboard'], { replaceUrl: true });
+            localStorage.setItem('isLoggedin', 'true');
+          } else if (res.code === '49') {
+            this.isRefresh = true;
+            this.getToken();
+          } else {
+            log.debug(`Login error: ${res.message}`);
+            switch (res.message) {
+              case '#auth_handler.auth.status.REISSUE':
+                localStorage.setItem('_details', JSON.stringify(vm.loginForm.value));
+                vm.toastr.warning('you logged in using a one time passsword, Please change your password.', 'NOTE',  {
+                  timeOut: 3000,
+                });
+                vm.router.navigate(['/re-issue'], { replaceUrl: true });
+                break;
+              case '#auth_handler.password.invalid':
+              vm.toastr.error('You have entered invalid login Credentials. Please try again later or Contact your system administrator.', 'ERROR');
+              break;
+              case '#auth_handler.credentials.invalid4':
+              vm.toastr.error('You have entered invalid login Credentials. Please try again later or Contact your system administrator.', 'ERROR');
+              break;
+              case '#auth_handler.user.status.INACTIVE':
+              vm.toastr.error('Your Account has been Deactivated. Please Contact your system administrator.', 'ERROR');
+              break;
+              case '#auth_handler.auth.status.INACTIVE':
+              vm.toastr.error('Your Account has been Deactivated. Please Contact your system administrator.', 'ERROR');
+              break;
+              default:
+              vm.toastr.error('Technical error has occured, please try again later or contact your system administrator', 'ERROR');
+            }
+          }
+        });
+    }
+
+    private createForm() {
+      this.loginForm = this.formBuilder.group({
+        username: ['', Validators.required],
+        password: ['', Validators.required],
+        remember: false,
+      });
+    }
 
 }

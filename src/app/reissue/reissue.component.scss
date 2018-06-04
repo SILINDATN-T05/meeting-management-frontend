@@ -1,0 +1,188 @@
+$topnav-background-color: #222;
+:host {
+    display: block;
+}
+.reissue-page {
+    background-image: url('/assets/images/carengen.jpeg');
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+    background-position: center center;
+    background-repeat:  no-repeat;
+    background-attachment: fixed;
+    background-size:  cover;
+    background-color: #999;
+    //background: $topnav-background-color;
+    text-align: center;
+    color: #fff;
+    padding: 3em;
+    .col-lg-4{
+        padding :0;
+    }
+    .input-lg {
+        height: 46px;
+        padding: 10px 16px;
+        font-size: 18px;
+        line-height: 1.3333333;
+        border-radius: 0;
+    }
+    .input-underline {
+        background: 0 0;
+        border: none;
+        box-shadow: none;
+        border-bottom: 2px solid rgba(255,255,255,.5);
+        color: #FFF;
+        border-radius: 0;
+    }
+    .input-underline:focus {
+        border-bottom: 2px solid #fff;
+        box-shadow: none;
+    }
+    .rounded-btn{
+        -webkit-border-radius: 50px;
+                border-radius: 50px;
+        color: rgba(255,255,255,0.8);
+        background: $topnav-background-color;
+        border: 2px solid rgba(255,255,255,0.8);
+        font-size: 18px;
+        line-height: 40px;
+        padding: 0 25px;
+    }
+    .rounded-btn:hover,.rounded-btn:focus,.rounded-btn:active,.rounded-btn:visited{
+        color: rgba(255,255,255,1);
+        border: 2px solid rgba(255,255,255,1);
+        outline: none;
+    }
+
+    h1 {
+        font-weight: 300;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        font-size: 36px;
+        small {
+            color: rgba(255,255,255,0.7);
+        }
+    }
+
+    .form-group {
+        padding: 8px 0;
+        input::-webkit-input-placeholder {
+        color: rgba(255,255,255,0.6) !important;
+        }
+
+        input:-moz-placeholder { /* Firefox 18- */
+        color: rgba(255,255,255,0.6) !important;
+        }
+
+        input::-moz-placeholder {  /* Firefox 19+ */
+        color: rgba(255,255,255,0.6) !important;
+        }
+
+        input:-ms-input-placeholder {
+        color: rgba(255,255,255,0.6) !important;
+        }
+    }
+    .form-content {
+        padding: 40px 0;
+    }
+    .user-avatar {
+        -webkit-border-radius: 50%;
+                border-radius: 50%;
+        border: 2px solid #FFF;
+    }
+}
+.reissue-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-image: url('/assets/images/carengen.jpeg');
+    overflow: auto;
+    background-position: center center;
+    background-repeat:  no-repeat;
+    background-attachment: fixed;
+    background-size:  cover;
+    background-color: #999;
+}
+
+.reissue-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100%;
+}
+
+.ng-invalid.ng-touched:not(form) {
+    border-left: 4px solid theme-color("danger");
+}
+
+// @include media-breakpoint-down(xs) {
+//     .container {
+//         width: 100%;
+//     }
+// }
+#reissue_container{
+    box-shadow:
+        0 0 0 3px #bfbfbf,
+        0 0 0 6px #a6a6a6,
+        0 0 0 9px #8c8c8c,
+        0 0 0 12px #737373,
+        0 0 0 15px #595959;
+}
+
+strong{
+    padding: 20px;
+    margin: 20px;
+    font-size: 28px;
+    // font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-weight: bolder;
+    color: black;
+}
+
+.myinput{
+    color: black !important;
+    padding-right: 5px !important;
+    width: 150px !important;
+}
+.mat-divider {
+    width: 100% !important;
+}
+
+.mat-icon {
+    color: #000000 !important;
+}
+.input-group-prepend .input-group-text {
+    width: 160px;
+}
+.example-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .example-container > * {
+    width: 100%;
+  }
+  
+  .example-right-align {
+    text-align: right;
+  }
+  
+  input.example-right-align::-webkit-outer-spin-button,
+  input.example-right-align::-webkit-inner-spin-button {
+    display: none;
+  }
+  
+  input.example-right-align {
+    -moz-appearance: textfield;
+  }
+
+  .mat-form-field {
+    width: 100% !important;
+    color: #000000 !important;
+}

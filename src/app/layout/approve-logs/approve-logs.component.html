@@ -1,0 +1,112 @@
+<div [@routerTransition]>
+  <app-page-header [heading]="'Approve Assessment-Logs'" [icon]="'fa-table'"></app-page-header>
+
+  <form [formGroup]="searchForm" novalidate class="form-inline">
+      <!-- <div class="row">
+          <div class="form-group input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">SearchBy</span>
+                  </div>
+                  <span class="input-group-addon">@</span>
+                  <select name="searchby" class="form-control" formControlName="searchBy">
+                      <option value="">All</option>
+                      <option *ngFor="let column of data.column; let i = index" value="{{column.field}}" [hidden]="!column.filter">{{column.name}}</option>
+                  </select>
+              </div>
+              <div class="form-group input-group">
+                  <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">Search Value</span>
+                  </div>
+                  <span class="input-group-addon">@</span>
+                <input name="searchvalue" class="form-control" formControlName="searchValue">
+              </div>
+      </div>
+      <div class="row"> -->
+
+          <mat-form-field>
+              <mat-select placeholder="Search By" formControlName="searchBy">
+                  <mat-option value="">All</mat-option>
+                  <mat-option *ngFor="let column of data.column; let i = index" value="{{column.field}}" [hidden]="!column.filter">
+                    {{column.name}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Search Value" formControlName="searchValue">
+              </mat-form-field>
+
+              <mat-form-field>
+                  <input matInput [matDatepicker]="picker1" placeholder="From Date" formControlName="fromDate">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+                
+                <mat-form-field>
+                  <input matInput [matDatepicker]="picker2" placeholder="To Date"
+                  formControlName="toDate">
+                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                  <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+              <div class="btn-group">
+                  <button mat-button mat-raised-button (click)="GetNotification()" class="btn btn-secondary" [disabled]="isLoading">
+                      <i class="fa fa-spinner fa-spin" [hidden]="!isLoading"></i>
+                      <span>Search</span>
+                  </button>
+               </div>
+  </form>
+  
+  
+  <div class="row">
+      <div class="card-block table-responsive">
+          <mat-table #table [dataSource]="dataSource" matSort>
+
+              <ng-container matColumnDef="request_date">
+                <mat-header-cell *matHeaderCellDef> Request Date </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{ element.request_date | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="handler_name">
+                <mat-header-cell *matHeaderCellDef> Handler Name </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{ element.request_date }} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="req_options">
+                <mat-header-cell *matHeaderCellDef> Platform </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.req_options.channel}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="step_name">
+                <mat-header-cell *matHeaderCellDef> Step Name </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.step_name}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="response_code">
+                <mat-header-cell *matHeaderCellDef> Response Code </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{ element.response_code }} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="message">
+                <mat-header-cell *matHeaderCellDef> Message</mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.message | json}} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="PartId">
+                <mat-header-cell *matHeaderCellDef> Part ID </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.request.PartId }} </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="Accepted">
+                <mat-header-cell *matHeaderCellDef> Accepted </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.request.Accepted }} </mat-cell>
+              </ng-container>
+          
+              <mat-header-row *matHeaderRowDef="data.columns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: data.columns;"></mat-row>
+            </mat-table>
+          <mat-paginator #paginator *ngIf="data.content.length > 0" [length]="length"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="pageSizeOptions"
+              (page)="paginationEvent($event)"
+              [showFirstLastButtons]="'true'">
+          </mat-paginator>
+      </div>
+  </div>
+</div>

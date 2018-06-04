@@ -1,0 +1,128 @@
+<mat-dialog-content>
+<div class="jumbotron">
+            <h3>Add Role!<i class="fas fa-times float-right" (click)="Close()"></i></h3>
+            <mat-horizontal-stepper [linear]="true" #stepper="matHorizontalStepper">
+            <mat-step [stepControl]="searchForm">
+            <div class="row example-container">
+                <div class="col-xl-4">
+                    <form [formGroup]="searchForm" class="user-form" novalidate>
+                    <ng-template matStepLabel>Capture Information</ng-template>
+                    <mat-form-field >
+                        <input matInput placeholder="Name" class="form-control" formControlName="name" required/>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Description" class="form-control" formControlName="description" required/>
+                    </mat-form-field>
+                    <div>
+                        <button mat-button [disabled]="searchForm.invalid" matStepperNext (click)="onStep1Next($event)">Next</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+            </mat-step>
+            <mat-step>
+            <div class="row example-container">
+                <div class="col-xl-4">
+                    <form class="user-form">
+                        <ng-template matStepLabel>Select System</ng-template>
+                        <mat-form-field>
+                            <mat-select placeholder="System" [formControl]="selectedSystem">
+                            <mat-option *ngFor="let system of systemList" [value]="system">{{system}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button matStepperNext (click)="onStep2Next($event)">Next</button>
+                        </div>
+                    </form>
+                    </div>
+            </div>
+            </mat-step>
+            <mat-step>
+            <div class="row example-container">
+                    <div class="col-xl-4">
+                        <form class="user-form">
+                        <ng-template matStepLabel>Select Permissions</ng-template>
+                        <mat-form-field>
+                            <mat-select placeholder="Permissions" [formControl]="selectedPermissions" multiple>
+                                <mat-option *ngFor="let permission of Permissions" [value]="permission._id">{{permission.code}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <div>
+                            <button mat-button matStepperPrevious>Back</button>
+                            <button mat-button matStepperNext (click)="onStep3Next($event)">Next</button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+            </mat-step>
+            <mat-step>
+            <div class="row example-container">
+                <div class="user-form">
+                    <ng-template matStepLabel>Comfirm Details</ng-template>
+                    <div class="row" [hidden]="isCompleted">
+                        <div class="col-xl-6">
+                        <table class="table table-sm ">
+                            <thead class="thead-inverse">
+                                <tr>
+                                    <th colspan="2">Role Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td >Name</td>
+                                    <td > : {{role_details.name}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Description</td>
+                                    <td> : {{role_details.description}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <div class="col-xl-6">
+                        <table class="table table-sm col-xl-6">
+                            <thead class="thead-inverse">
+                                <tr>
+                                    <th >Assigned Permissions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let permission of selectedPermissions.value; let i = index;">
+                                    <td class="col-xl-3">{{displayPermission(permission)}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                        <div class="col-xl-6">
+                        <table class="table table-sm  col-xl-6">
+                            <thead class="thead-inverse">
+                                <tr>
+                                    <th>Assigned System</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{selectedSystem.value}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                    <div class="row" [hidden]="!isCompleted">
+                        <span>Role {{role_details.name}} has been successfully added</span>
+                    </div>
+                    <div>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button mat-raised-button [hidden]="isCompleted" [disabled]="isLoading" (click)="onComplete($event)">
+                            <i class="fa fa-cog fa-spin" [hidden]="!isLoading"></i>
+                            <span>Confirm</span>
+                        </button>
+                        <button mat-button [hidden]="!isCompleted" (click)="Close()">Done</button>
+                    </div>
+                </div>
+            </div>
+            </mat-step>
+            </mat-horizontal-stepper>
+</div>
+</mat-dialog-content>

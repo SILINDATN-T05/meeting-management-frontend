@@ -1,8 +1,58 @@
 <div [@routerTransition]>
-    <h2 class="text-muted">Dashboard</h2>
-    <div class="row">
-        <div class="col-md-12">
-            <img src="assets/images/autoboys.png" class="img-responsive center-block" />
-        </div>
-    </div>
+        <mat-card class="example-card">
+                <mat-card-header>
+                        <div mat-card-avatar class="example-header-image"></div>
+                        <mat-card-title>Welcome to Parts Portal {{user.firstName}}  {{user.lastName}}</mat-card-title>
+                        <mat-card-subtitle><i class="fa fa-cogs "></i></mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                        <div class="row jumbotron" [hidden]="NoCharts">
+                                <div class="col col-sm-6" *ngFor="let chart of chartsData; let i = index" [hidden]="checkPermissionChart(chart.permission) || isLoading">
+                                        <div class="card mb-3">
+                                                <div class="card-header">
+                                                        {{chart.name}}
+                                                </div>
+                                                <div class="card-body">
+                                                        <canvas baseChart height="150px" [data]="chart.data" [labels]="chart.keys" [chartType]="pieChartType" [legend]="'true'" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)">
+                                                        </canvas>
+                                                </div>
+                                        </div>
+                                </div>
+                                <div class="col-xl-12" [hidden]="!isLoading">
+                                        <div class="card mb-3">
+                                                <div class="card-body col-md-6 offset-md-3">
+                                                        <i class="fa fa-spinner fa-5x fa-spin"></i>
+                                                        <span>Please Wait!!!</span>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </mat-card-content>
+        </mat-card>
+        <mat-card class="example-card" [hidden]="NoChard">
+                <mat-card-content>
+                        <div class="row jumbotron ">
+                        <div class="col-xl-3 col-lg-6"  [hidden]="checkPermission('UM_MENU_USER_MANAGEMENT')">
+                                <app-stat [bgClass]="'primary'" [icon]="'fa-users'" [count]="Counts.users || 0" [label]="'Existing Users!'"  [routerLink]="['/user-management']"></app-stat>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="col-xl-3 col-lg-6" [hidden]="checkPermission('UM_MENU_ROLES_MANAGEMENT')" >
+                                <app-stat [bgClass]="'primary'" [icon]="'fa-universal-access'" [count]="Counts.roles || 0" [label]="'Available Roles!'" [routerLink]="['/roles-management']"></app-stat>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="col-xl-3 col-lg-6" [hidden]="checkPermission('UM_MENU_PERMISSION_MANAGEMENT')" >
+                                <app-stat [bgClass]="'primary'" [icon]="'fa-superpowers'" [count]="Counts.permission.total || 0" [label]="'Available Permissions!'" [routerLink]="['/permissions-management']"></app-stat>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="col-xl-3 col-lg-6" [hidden]="checkPermission('UM_MENU_PART_MANAGEMENT')" >
+                                <app-stat [bgClass]="'primary'" [icon]="'fa-cogs'" [count]="Counts.standards.total || 0" [label]="'All Parts!'" [routerLink]="['/parts-management']"></app-stat>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="col-xl-3 col-lg-6" [hidden]="checkPermission('UM_MENU_VERIFICATION')" >
+                                <app-stat [bgClass]="'primary'" [icon]="'fa-list-alt'" [count]="Counts.verification.total || 0" [label]="'New Assessments!'" [routerLink]="['/verification']"></app-stat>
+                        </div>
+                        <mat-divider></mat-divider>
+                        </div>
+                </mat-card-content>
+        </mat-card>
 </div>

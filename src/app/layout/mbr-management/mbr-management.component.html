@@ -1,0 +1,105 @@
+<!-- Filter clear button Template -->
+<ng-template #filterClearTmpl>
+    <button mat-raised-button color="primary" (click)="clearFilterView()">Clear Results</button>
+</ng-template>
+
+<!-- Child table -->
+<ng-template #subTable let-element>
+    <div class="mat-row" [@detailExpand] style="overflow: hidden">
+        <ng-container matColumnDef="expandedDetail">
+            <div class="sub-table-container">
+                <mat-table #table [dataSource]="matchedDataSource(element.WORKPROVIDER_ARRAY)">
+                    <ng-container matColumnDef="WORKPROVIDER_ARRAY">
+                        <mat-header-cell *matHeaderCellDef> WORKPROVIDER_ARRAY </mat-header-cell>
+                        <mat-cell *matCellDef="let work"> {{work}} </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="subTableColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: subTableColumns;">
+                    </mat-row>
+                </mat-table>
+            </div>
+        </ng-container>
+    </div>
+</ng-template>
+
+<div [@routerTransition]>
+    <app-page-header [heading]="'MBR Management'" [icon]="'fa-table'"></app-page-header>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="example-container mat-elevation-z8">
+                <div class="table-header">
+                    <ng-container *ngIf="filterProps.showFilterClearButton">
+                        <ng-container *ngTemplateOutlet="filterClearTmpl;"></ng-container>
+                    </ng-container>
+                    <button mat-button mat-raised-button (click)="addMbr()" class="btn btn-secondary">Add MBR</button>
+                </div>
+                <mat-table #table [dataSource]="dataSource" matSort>
+
+                    <ng-container matColumnDef="KEY">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'KEY'" [icon]="'filter_list'" [filterName]="'KEY'" [trigger]="1" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.KEY}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="MBR_NAME">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'MBR_NAME'" [icon]="'filter_list'" [filterName]="'MBR Name'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.MBR_NAME}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="TELEPHONE">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'TELEPHONE'" [icon]="'filter_list'" [filterName]="'Telephone'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.TELEPHONE}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="FAX">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'FAX'" [icon]="'filter_list'" [filterName]="'Fax'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.FAX}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="EMAIL">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'EMAIL'" [icon]="'filter_list'" [filterName]="'Email'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.EMAIL}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="MBR_VAT_ID">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'MBR_VAT_ID'" [icon]="'filter_list'" [filterName]="'MBR Vat ID'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.MBR_VAT_ID}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="KERRIDGE_ACC_NO">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'KERRIDGE_ACC_NO'" [icon]="'filter_list'" [filterName]="'KERRIDGE Acc No.'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.KERRIDGE_ACC_NO}} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="MANAGE">
+                        <mat-header-cell *matHeaderCellDef> MANAGE </mat-header-cell>
+                        <mat-cell *matCellDef="let element">
+                            <mat-menu #appMenu="matMenu">
+                                <button mat-menu-item (click)="EditInformation(element)">{{ 'Edit Information' }}</button>
+                            </mat-menu>
+                            <button mat-icon-button mat-raised-button [matMenuTriggerFor]="appMenu">
+                                <i class="fa fa-bars fa-2x"></i>
+                            </button>
+                        </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: tableColumns;" matRipple class="element-row" [cdkDetailRow]="row" [cdkDetailRowTpl]="subTable"></mat-row>
+                </mat-table>
+            </div>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"></mat-paginator>
+        </div>
+    </div>
+</div>

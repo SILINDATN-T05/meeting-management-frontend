@@ -1,6 +1,109 @@
 /* You can add global styles to this file, and also import other style files */
+
 @import "bootstrap/bootstrap";
 @import "spinner";
 @import "utils";
 @import "rtl";
 @import "responsive";
+@import "~ngx-toastr/toastr.css";
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+// bootstrap style toast
+// or import a bootstrap 4 alert styled design (SASS ONLY)
+// should be after your bootstrap imports, it uses bs4 variables, mixins, functions
+@import "~ngx-toastr/toastr-bs4-alert";
+
+// if you'd like to use it without importing all of bootstrap it requires
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+@import "~ngx-toastr/toastr-bs4-alert";
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../assets/fonts/iconfont/MaterialIcons-Regular.eot);
+    /* For IE6-8 */
+    src: local('Material Icons'), local('MaterialIcons-Regular'), url(../assets/fonts/iconfont/MaterialIcons-Regular.woff2) format('woff2'), url(../assets/fonts/iconfont/MaterialIcons-Regular.woff) format('woff'), url(../assets/fonts/iconfont/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+#jsd-widget {
+    position: fixed !important;
+    left: 1% !important;
+    opacity: 0;
+}
+
+.row.col-xl-12 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 10px;
+}
+
+.toast-top-right {
+    top: 80px !important;
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+.table {
+    margin: 10px !important;
+}
+
+.mat-cell {
+    margin: 8px !important;
+}
+
+.float-right {
+    margin: 10px;
+}
+
+button.btn.btn-secondary.mat-button.mat-raised-button {
+    margin: 30px !important;
+}
+
+.user-form {
+    // width: 800px !important;
+    min-width: 750px;
+    max-width: 800px;
+    width: 100%;
+}
+
+.example-container {
+    padding: 10px !important;
+}
+
+.table-row-pointer {
+    cursor: pointer
+}
+
+mat-header-cell {
+    font-size: 10pt !important;
+    font-weight: bold !important;
+    color: #292b2c !important;
+}
+mat-row:nth-of-type(2n) {
+    background-color: whitesmoke ;
+}
+
+mat-row:nth-of-type(2n + 1) {
+    background-color: lightgrey ;
+}

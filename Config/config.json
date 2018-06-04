@@ -1,0 +1,14 @@
+{
+  "version": "(dev)",
+  "tn_portal": {
+      "serverUrl": "http://matching-engine:9095",
+      "defaultLanguage": "en-US",
+      "channel": "PORTAL",
+      "organizationID": "SILINDATN",
+      "application": "TN_PORTAL",
+      "supportedLanguages": [
+          "en-US",
+          "fr-FR"
+      ]
+  }
+}

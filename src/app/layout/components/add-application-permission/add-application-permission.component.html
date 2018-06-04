@@ -1,0 +1,24 @@
+<mat-dialog-content>
+<div class="jumbotron">
+    <h2 mat-dialog-title>Add Application Permissions! <i class="fas fa-times float-right" (click)="Close()"></i></h2>
+    <div class="row example-container">
+<div class="col-xl-4">
+    <form class="user-form">
+      <ng-template matStepLabel>Select Permissions</ng-template>
+      <span>For {{application_details.name}} Application</span>
+      <mat-form-field>
+          <mat-select placeholder="Permissions" [formControl]="selectedPermissions" multiple>
+            <mat-option *ngFor="let permission of Permissions" [hidden]="checkPermission(permission._id)" [value]="permission._id">{{permission.code}}</mat-option>
+          </mat-select>
+      </mat-form-field>
+      <div>
+          <button mat-button mat-raised-button [disabled]="isLoading" (click)="AddApplicationPermissions()">
+              <i class="fa fa-cog fa-spin" [hidden]="!isLoading"></i>
+              <span>Save</span>
+          </button>
+      </div>
+    </form>
+  </div>
+</div>    
+</div>
+</mat-dialog-content>

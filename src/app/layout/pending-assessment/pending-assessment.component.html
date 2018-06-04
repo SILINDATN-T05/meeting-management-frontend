@@ -1,0 +1,111 @@
+<!-- Filter clear button Template -->
+<ng-template #filterClearTmpl>
+    <button mat-raised-button color="primary" (click)="clearFilterView()">Clear Results</button>
+</ng-template>
+
+<!-- Child table -->
+<ng-template #subTable let-element>
+    <div class="mat-row" [@detailExpand] style="overflow: hidden">
+        <ng-container matColumnDef="expandedDetail">
+            <div class="sub-table-container">
+                <mat-table #table [dataSource]="matchedDataSource(element.PARTS)">
+                    <ng-container matColumnDef="MATCHED_PART">
+                        <mat-header-cell *matHeaderCellDef> Matched Part </mat-header-cell>
+                        <mat-cell *matCellDef="let part"> {{part.MATCHED_PART}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="PART_DESCRIPTION">
+                        <mat-header-cell *matHeaderCellDef> Part Description </mat-header-cell>
+                        <mat-cell *matCellDef="let part"> {{part.PART_DESCRIPTION}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="MATCHED_PART_ID">
+                        <mat-header-cell *matHeaderCellDef> Matched Part ID </mat-header-cell>
+                        <mat-cell *matCellDef="let part"> {{ part.MATCHED_PART_ID }} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="AUDA_PART_ID">
+                        <mat-header-cell *matHeaderCellDef> Part OE </mat-header-cell>
+                        <mat-cell *matCellDef="let part"> {{part.AUDA_PART_ID}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="BID_SUBMIT">
+                        <mat-header-cell *matHeaderCellDef> Bid Sumitted </mat-header-cell>
+                        <mat-cell *matCellDef="let part"> {{part.BID_SUBMIT}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="BID_SUBMIT_DATE">
+                        <mat-header-cell *matHeaderCellDef> Bid Submitted Date </mat-header-cell>
+                        <mat-cell *matCellDef="let part"> {{part.BID_SUBMIT_DATE | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}} </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="subTableColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: subTableColumns;">
+                    </mat-row>
+                </mat-table>
+            </div>
+        </ng-container>
+    </div>
+</ng-template>
+
+<div [@routerTransition]>
+    <app-page-header [heading]="'Pending Assessment'" [icon]="'fa-table'"></app-page-header>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="example-container mat-elevation-z8">
+                <div class="table-header">
+                    <ng-container *ngIf="filterProps.showFilterClearButton">
+                        <ng-container *ngTemplateOutlet="filterClearTmpl;"></ng-container>
+                    </ng-container>
+                </div>
+                <mat-table #table [dataSource]="dataSource" matSort>
+                    <ng-container matColumnDef="REQUEST_ID">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'REQUEST_ID'" [icon]="'filter_list'" [filterName]="'Request ID'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.REQUEST_ID}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="ASSESSMENT_ID">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'ASSESSMENT_ID'" [icon]="'filter_list'" [filterName]="'Assessment ID'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.ASSESSMENT_ID}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="VIN">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'VIN'" [icon]="'filter_list'" [filterName]="'VIN'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.VIN}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="REGISTRATION">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'REGISTRATION'" [icon]="'filter_list'" [filterName]="'Registration'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.REGISTRATION}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="WORKPROVIDER_ID">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'WORKPROVIDER_ID'" [icon]="'filter_list'" [filterName]="'Work Provider'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.WORKPROVIDER_ID}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="CLAIM_NO">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'CLAIM_NO'" [icon]="'filter_list'" [filterName]="'Claim No'" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.CLAIM_NO}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="UNDER_WARRANTY">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'UNDER_WARRANTY'" [icon]="'filter_list'" [filterName]="'Under Warranty'" [trigger]="2" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.UNDER_WARRANTY}} </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="CREATE_DATE">
+                        <mat-header-cell *matHeaderCellDef>
+                            <app-filter-form [columnID]="'CREATE_DATE'" [icon]="'filter_list'" [filterName]="'Create Date'" [enabled]="false" (onFilter)="sendFilterRequest($event)"></app-filter-form>
+                        </mat-header-cell>
+                        <mat-cell *matCellDef="let element"> {{element.CREATE_DATE | amLocal | amDateFormat: 'YYYY-MM-DD HH:mm:ss'}} </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="tableColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: tableColumns;" matRipple class="element-row" [cdkDetailRow]="row" [cdkDetailRowTpl]="subTable"></mat-row>
+                </mat-table>
+            </div>
+            <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [showFirstLastButtons]="true"></mat-paginator>
+        </div>
+    </div>
+</div>

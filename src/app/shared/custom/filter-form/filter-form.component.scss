@@ -1,0 +1,30 @@
+.menu-form-field {
+  width: 96% !important;
+  max-width: 100% !important;
+  margin: 5px;
+}
+
+.filter-header {
+  width: 100%;
+}
+
+.filter-icon {
+  display: flex;
+  float: left;
+  width: 10px !important;
+  vertical-align: top;
+  margin-right: 10px;
+  line-height: 1.8;
+  color: #673ab7;
+}
+
+.filter-icon:hover{
+  cursor: pointer;
+}
+
+.filter-label {
+  display: flex;
+  float: right;
+  vertical-align: top;
+  // padding-right: 30px;
+}

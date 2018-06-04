@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
-import { LoginRoutingModule } from './login-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { TranslateModule } from '@ngx-translate/core';
+import { DemoMaterialModule } from '../shared/modules/materialModule';
+import { LoginRoutingModule } from './login-routing.module';
 import { LoginComponent } from './login.component';
 
 @NgModule({
@@ -14,22 +13,11 @@ import { LoginComponent } from './login.component';
     ReactiveFormsModule,
     TranslateModule,
     NgbModule,
-    LoginRoutingModule
+    LoginRoutingModule,
+    DemoMaterialModule,
   ],
   declarations: [
-    LoginComponent
-  ]
+    LoginComponent,
+  ],
 })
 export class LoginModule { }
-// @NgModule({
-//     imports: [
-//         CommonModule,
-//         LoginRoutingModule
-//     ],
-//     declarations: [LoginComponent]
-// })
-// export class LoginModule {
-// }
-
-
-
