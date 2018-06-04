@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --ec true -o",
+    "start": "pm2 start TN-PORTAL.js;pm2 logs",
     "start-pm2": "pm2 start TN-PORTAL.js;pm2 logs",
     "build": "ng build --aot --prod --build-optimizer",
     "gitbuild": "ng build --prod --base /start-angular/smart-parts-portal/master/dist/",
