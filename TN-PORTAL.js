@@ -30,10 +30,10 @@ let time = new Date();
 app.set('view cache', true);
 // app.use("/", expressStaticGzip(__dirname + '/dist', { indexFromEmptyFile: false }));
 app.use(compression());
-app.use(function(req, res, next) {
-    res.setHeader("Content-Security-Policy", "default-src https:; script-src https: 'unsafe-inline'; style-src https: 'unsafe-inline'; img-src https: data:; frame-src https: data:;object-src https: data:;");
-    return next();
-});
+// app.use(function(req, res, next) {
+//     res.setHeader("Content-Security-Policy", "default-src https:; script-src https: 'unsafe-inline'; style-src https: 'unsafe-inline'; img-src https: data:; frame-src https: data:;object-src https: data:;");
+//     return next();
+// });
 app.use(serveStatic(__dirname + '/dist', {
     maxAge: '86400',
     setHeaders: setCustomCacheControl
