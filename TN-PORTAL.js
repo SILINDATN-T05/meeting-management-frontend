@@ -42,9 +42,11 @@ app.use(portal_handler);
 app.use(bodyParser.json({limit: '500mb'}));
 app.use(bodyParser.urlencoded({extended: false, limit: '500mb'}));
 app.use(express.static(path.join(__dirname, 'dist')));
+app.set('dist', path.join(__dirname, 'dist'))
+app.set('view engine', 'ejs')
 app.get('/*', function(req, res){
-    const index = path.join('app', 'dist', 'index.html');
-    res.sendFile('app/dist/index.html');
+    res.render('dist/index')
+    // res.sendFile('app/dist/index.html');
 })
 // for secure server
 // https.createServer(httpsOptions, app).listen(process.env.PORT || 8080, function() {
