@@ -43,7 +43,7 @@ app.use(bodyParser.urlencoded({extended: false, limit: '500mb'}));
 app.use(express.static(__dirname + 'dist'));
 app.use(portal_handler);
 app.get('/*', function(req, res){
-    res.sendFile(__dirname + '/dist/index.html');
+    res.sendFile('./dist/index.html');
 })
 // for secure server
 // https.createServer(httpsOptions, app).listen(process.env.PORT || 8080, function() {
