@@ -65,28 +65,10 @@ export class DashboardComponent implements OnInit {
             },
             users: 0,
             roles: 0,
-            verification: {
-                verification: {
-                    name: '',
-                    keys: [],
-                    value: [],
-                },
-                total: 0,
-            },
-            standards: {
-                standards: {
-                    name: '',
-                    keys: [],
-                    value: [],
-                },
-                total: 0,
-            },
         };
         this.Permissions = JSON.parse(sessionStorage.getItem('permissions'));
         this.getCounts();
-        this.getCountParts();
         this.getBranch();
-        this.getPartStandards();
     }
     checkPermission(permission) {
         const found = _.findIndex(this.Permissions, {code: permission});
@@ -110,28 +92,6 @@ export class DashboardComponent implements OnInit {
     public chartHovered(e: any): void {
         // console.log(e);
     }
-    getCountParts() {
-        const vm = this;
-        const options = {
-            query: {},
-        };
-        const found  = _.findIndex(vm.Permissions, {code: 'UM_MENU_PART_MANAGEMENT'});
-        if (found >= 0) {
-            vm.isLoading = true;
-            vm._request.PostRequest('match/count_parts', options, function(res: ICredentials) {
-                if (res.code === '00' && res.data) {
-                    vm.Counts.standards = res.data;
-                    vm.chartsData.push({
-                        name: vm.Counts.standards.standards.name,
-                        data: vm.Counts.standards.standards.value,
-                        keys: vm.Counts.standards.standards.keys,
-                        permission: 'UM_MENU_PART_MANAGEMENT',
-                    });
-                    vm.isLoading = false;
-                }
-            });
-        }
-    }
     getBranch() {
         const vm = this;
         this._request.PostRequest('api/branch/list_all', {}, function(res: ICredentials) {
@@ -151,31 +111,13 @@ export class DashboardComponent implements OnInit {
                 vm.Counts.permission = res.data.permission;
                 vm.Counts.users = res.data.users;
                 vm.Counts.roles = res.data.roles;
-                vm.Counts.verification = res.data.verification;
                 vm.chartsData.push({
                     name: vm.Counts.permission.permissions.name,
                     data: vm.Counts.permission.permissions.value,
                     keys: vm.Counts.permission.permissions.keys,
                     permission: 'UM_MENU_PERMISSION_MANAGEMENT',
                 });
-                vm.chartsData.push({
-                    name: vm.Counts.verification.verification.name,
-                    data: vm.Counts.verification.verification.value,
-                    keys: vm.Counts.verification.verification.keys,
-                    permission: 'UM_MENU_VERIFICATION',
-                });
                 vm.isLoading = false;
-            }
-        });
-    }
-    getPartStandards() {
-        const vm = this;
-        const options = {
-            query: {},
-        };
-        vm._request.PostRequest('match/get_part_standard_by_query/', options, function(res: ICredentials) {
-            if (res.code === '00' && res.data.length > 0) {
-                sessionStorage.setItem('standard', JSON.stringify(res.data));
             }
         });
     }

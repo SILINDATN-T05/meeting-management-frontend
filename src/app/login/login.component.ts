@@ -28,9 +28,9 @@ export class LoginComponent implements OnInit {
     hide = true;
     isRefresh = false;
     body = {
-        channel: environment.parts_portal.channel,
-        application: environment.parts_portal.application,
-        organizationID: environment.parts_portal.organizationID,
+        channel: environment.tn_portal.channel,
+        application: environment.tn_portal.application,
+        organizationID: environment.tn_portal.organizationID,
     };
     Username = 'Enter username';
     Password = 'Enter password';

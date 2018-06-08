@@ -141,6 +141,7 @@ export class UsersComponent implements AfterViewInit, OnInit {
     GetUsers(_query: object = {}) {
         const vm = this;
         vm.isLoading = true;
+        _query['_id'] = {$nin: [vm.user._id]};
         vm._request.PostRequest(
             'api/user/list_all',
             { query: _query },
@@ -244,7 +245,7 @@ export class UsersComponent implements AfterViewInit, OnInit {
 
     displayBranch(branch) {
         const found = _.findIndex(this.Branches, { _id: branch });
-        return found >= 0 ? this.Branches[found].NAME : 'Not Found';
+        return found >= 0 ? this.Branches[found].name : 'Not Found';
     }
 
     sendFilterRequest(filter: any) {

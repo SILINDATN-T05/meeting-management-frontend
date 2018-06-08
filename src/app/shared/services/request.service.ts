@@ -17,9 +17,9 @@ export class RequestService {
 
   // private _credentials: ICredentials;
   body = {
-    channel: environment.parts_portal.channel,
-    application: environment.parts_portal.application,
-    organizationID: environment.parts_portal.organizationID,
+    channel: environment.tn_portal.channel,
+    application: environment.tn_portal.application,
+    organizationID: environment.tn_portal.organizationID,
   };
   constructor(private http: Http, private router: Router, public toastr:  ToastrService) {
   }

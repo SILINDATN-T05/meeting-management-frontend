@@ -23,13 +23,12 @@ export class AddUserDialogComponent implements OnInit {
   Platform = [
     'WEB-API',
     'PORTAL',
+    'APP',
   ];
   isCompleted = false;
   user_details: any = {};
   Branches: any = [];
-  Insurers: any = [];
   selectedBranch = new FormControl();
-  selectedInsurer = new FormControl();
   searchForm: FormGroup;
   title: string;
   message: string;
@@ -49,7 +48,6 @@ export class AddUserDialogComponent implements OnInit {
   }
   ngOnInit() {
     this.createForm();
-    this.getInsures();
   }
   Close() {
     this.dialogRef.close();
@@ -96,23 +94,10 @@ export class AddUserDialogComponent implements OnInit {
   }
   displayBranch(branch) {
     const found = _.findIndex(this.Branches, {_id: branch});
-    return found > 0 ? this.Branches[found].NAME : null;
-  }
-  displayInsuer(insurer) {
-    const found = _.findIndex(this.Insurers, {_id: insurer});
-    return found > 0 ? this.Insurers[found].WORKPROVIDER_ID : null;
-  }
-  getInsures() {
-    const vm = this;
-    this.request.PostRequest('api/work_provider/list_all', {}, function(res: ICredentials) {
-      if (res.code === '00') {
-        vm.Insurers = res.data;
-      }
-    }, this.dialogRef);
+    return found > 0 ? this.Branches[found].name : null;
   }
   onComplete(event) {
     this.user_details['branch'] = this.selectedBranch.value || null;
-    this.user_details['insurer'] = this.selectedInsurer.value || null;
     this.user_details['platform'] = this.selectedPlatform.value;
     this.user_details['roles'] = [];
     this.user_details.roles = this.selectedRoles.value;

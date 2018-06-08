@@ -16,7 +16,6 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthenticationService } from './core/authentication/authentication.service';
-import { CopyPartDialogModule } from './layout/components/copy-part-dialog/copy-part-dialog.module';
 import { AuthGuard } from './shared';
 import { DialogProfileComponent } from './shared/components/';
 import { DemoMaterialModule } from './shared/modules/materialModule';
@@ -40,7 +39,6 @@ export function createTranslateLoader(http: HttpClient) {
         DropdownModule,
         HttpModule,
         MomentModule,
-        CopyPartDialogModule,
         DemoMaterialModule,
         TranslateModule.forRoot({
             loader: {

@@ -2,7 +2,7 @@
         <mat-card class="example-card">
                 <mat-card-header>
                         <div mat-card-avatar class="example-header-image"></div>
-                        <mat-card-title>Welcome to Parts Portal {{user.firstName}}  {{user.lastName}}</mat-card-title>
+                        <mat-card-title>Welcome to TN Portal {{user.firstName}}  {{user.lastName}}</mat-card-title>
                         <mat-card-subtitle><i class="fa fa-cogs "></i></mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-content>
@@ -42,14 +42,6 @@
                         <mat-divider></mat-divider>
                         <div class="col-xl-3 col-lg-6" [hidden]="checkPermission('UM_MENU_PERMISSION_MANAGEMENT')" >
                                 <app-stat [bgClass]="'primary'" [icon]="'fa-superpowers'" [count]="Counts.permission.total || 0" [label]="'Available Permissions!'" [routerLink]="['/permissions-management']"></app-stat>
-                        </div>
-                        <mat-divider></mat-divider>
-                        <div class="col-xl-3 col-lg-6" [hidden]="checkPermission('UM_MENU_PART_MANAGEMENT')" >
-                                <app-stat [bgClass]="'primary'" [icon]="'fa-cogs'" [count]="Counts.standards.total || 0" [label]="'All Parts!'" [routerLink]="['/parts-management']"></app-stat>
-                        </div>
-                        <mat-divider></mat-divider>
-                        <div class="col-xl-3 col-lg-6" [hidden]="checkPermission('UM_MENU_VERIFICATION')" >
-                                <app-stat [bgClass]="'primary'" [icon]="'fa-list-alt'" [count]="Counts.verification.total || 0" [label]="'New Assessments!'" [routerLink]="['/verification']"></app-stat>
                         </div>
                         <mat-divider></mat-divider>
                         </div>

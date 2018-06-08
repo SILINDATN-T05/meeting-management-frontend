@@ -57,23 +57,9 @@
             <div class="row example-container">
                 <div class="col-xl-6">
                     <ng-template matStepLabel>Assign branch</ng-template>
-                    <mat-slide-toggle
-                        class="example-margin"
-                        [color]="color"
-                        [checked]="checked"
-                        [disabled]="disabled"
-                        [(ngModel)]="checked">
-                             Insurer User?
-                    </mat-slide-toggle>
-                    <mat-form-field [hidden]="checked">
+                    <mat-form-field>
                             <mat-select placeholder="Select Branch" [formControl]="selectedBranch">
-                                <mat-option *ngFor="let branch of Branches" [value]="branch._id">{{branch.NAME}}</mat-option>
-                            </mat-select>
-                    </mat-form-field>
-
-                    <mat-form-field [hidden]="!checked">
-                            <mat-select placeholder="Select Insurer" [formControl]="selectedInsurer">
-                                <mat-option *ngFor="let insurer of Insurers" [value]="insurer._id">{{insurer.WORKPROVIDER_ID}}</mat-option>
+                                <mat-option *ngFor="let branch of Branches" [value]="branch._id">{{branch.name}}</mat-option>
                             </mat-select>
                     </mat-form-field>
                     
@@ -124,18 +110,11 @@
                         </mat-list>
                     </div>
                     <div class="col-xl-6">
-                        <mat-list  [hidden]="checked">
+                        <mat-list>
                             <h3 mat-subheader>Assigned Branch</h3>
                             <mat-list-item>
                                 <mat-icon mat-list-icon>folder</mat-icon>
                                 <h4 mat-line>{{displayBranch(selectedBranch.value)}}</h4>
-                            </mat-list-item>
-                        </mat-list>
-                        <mat-list  [hidden]="!checked">
-                            <h3 mat-subheader>Assigned Insurer</h3>
-                            <mat-list-item>
-                                <mat-icon mat-list-icon>folder</mat-icon>
-                                <h4 mat-line>{{displayInsuer(selectedInsurer.value)}}</h4>
                             </mat-list-item>
                         </mat-list>
                     </div>

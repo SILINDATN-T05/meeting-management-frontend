@@ -20,7 +20,6 @@ export class EditUserInformationComponent implements OnInit {
   user: IUser;
   userForm: FormGroup;
   Branches = [];
-  // GlassParts = [];
   isLoading = false;
   constructor(
     private formBuilder: FormBuilder,

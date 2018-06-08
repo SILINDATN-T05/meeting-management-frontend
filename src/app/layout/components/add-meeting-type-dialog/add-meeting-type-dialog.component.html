@@ -1,0 +1,30 @@
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" (click)="Close()" >&times;</button>
+          <h4 class="modal-title">{{'Add Meeting Type'}}</h4>
+        </div>
+        <div class="modal-body">
+              <form [formGroup]="searchForm" novalidate (ngSubmit)="onSubmit()">
+                  
+              <div class="form-group form-inline">
+                  <label class="myinput" for="name">Meeting Name</label>
+                  <input name="name" class="form-control" formControlName="name">
+              </div>
+              <div class="form-group form-inline">
+                  <label class="myinput" for="description">Description</label>
+                  <input name="description" class="form-control" formControlName="description">
+              </div>
+              
+              <div class="form-group form-inline">
+                  <label class="myinput" for="description">Abbreviation</label>
+                  <input name="description" class="form-control" formControlName="abbr">
+              </div>
+
+              <button type="submit" class="btn btn-default" [disabled] = "searchForm.invalid" >Save</button>
+              </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="Close()" >Cancel</button>
+        </div>
+      </div>
