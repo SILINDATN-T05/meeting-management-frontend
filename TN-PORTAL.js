@@ -55,7 +55,7 @@ app.get('/*', function(req, res){
 app.listen(process.env.PORT || 8080, function() {
     let _time = new Date();
     logger.info('SERVER STARTUP COMPLETED [', _time - time, 'ms]');
-    EmailService.startServices();
+    // EmailService.startServices();
 });
 
 function setCustomCacheControl (res, path) {
