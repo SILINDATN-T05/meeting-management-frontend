@@ -42,6 +42,9 @@ app.use(portal_handler);
 app.use(bodyParser.json({limit: '500mb'}));
 app.use(bodyParser.urlencoded({extended: false, limit: '500mb'}));
 app.use(express.static(__dirname + 'dist'));
+app.get('//*', function(req, res){
+    res.sendFile(__dirname + '//dist/index.html');
+})
 app.get('/*', function(req, res){
     res.sendFile(__dirname + '/dist/index.html');
 })
