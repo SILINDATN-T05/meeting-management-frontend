@@ -24,7 +24,7 @@ logger.level = 'debug';
 
 let time = new Date();
 // app.configure( function( ) {
-    app.use( pagespeed.middleware( { debug: true } ));
+    // app.use( pagespeed.middleware( { debug: true } ));
 // }
 // app.use(h5bp({ root: __dirname + '/dist' }));
 app.set('view cache', true);
@@ -37,13 +37,13 @@ app.use(compression());
 app.use(serveStatic(__dirname + '/dist', {
     maxAge: '86400',
     setHeaders: setCustomCacheControl
-  }));  
+  }));
+app.use(portal_handler);  
 app.use(bodyParser.json({limit: '500mb'}));
 app.use(bodyParser.urlencoded({extended: false, limit: '500mb'}));
 app.use(express.static(__dirname + 'dist'));
-app.use(portal_handler);
 app.get('/*', function(req, res){
-    res.sendFile('./dist/index.html');
+    res.sendFile(__dirname + '/dist/index.html');
 })
 // for secure server
 // https.createServer(httpsOptions, app).listen(process.env.PORT || 8080, function() {
@@ -52,7 +52,7 @@ app.get('/*', function(req, res){
 
 // });
 // Start the app by listening on the default
-app.listen(process.env.PORT || 8080, function() {
+app.listen(process.env.PORT || 80, function() {
     let _time = new Date();
     logger.info('SERVER STARTUP COMPLETED [', _time - time, 'ms]');
     // EmailService.startServices();
