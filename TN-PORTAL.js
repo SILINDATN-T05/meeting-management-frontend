@@ -46,17 +46,17 @@ app.get('/*', function(req, res){
     res.sendFile(__dirname + '/dist/index.html');
 })
 // for secure server
-https.createServer(httpsOptions, app).listen(process.env.PORT || 8080, function() {
-    let _time = new Date();
-    logger.info('SERVER STARTUP COMPLETED [', _time - time, 'ms]', 8080);
-
-});
-// Start the app by listening on the default
-// app.listen(process.env.PORT || 8080, function() {
+// https.createServer(httpsOptions, app).listen(process.env.PORT || 8080, function() {
 //     let _time = new Date();
-//     logger.info('SERVER STARTUP COMPLETED [', _time - time, 'ms]');
-//     EmailService.startServices();
+//     logger.info('SERVER STARTUP COMPLETED [', _time - time, 'ms]', 8080);
+
 // });
+// Start the app by listening on the default
+app.listen(process.env.PORT || 8080, function() {
+    let _time = new Date();
+    logger.info('SERVER STARTUP COMPLETED [', _time - time, 'ms]');
+    EmailService.startServices();
+});
 
 function setCustomCacheControl (res, path) {
     //if (serveStatic.mime.lookup(path) === 'text/html') {
