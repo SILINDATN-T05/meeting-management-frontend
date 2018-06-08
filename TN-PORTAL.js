@@ -41,7 +41,7 @@ app.use(serveStatic(__dirname + '/dist', {
 app.use(portal_handler);  
 app.use(bodyParser.json({limit: '500mb'}));
 app.use(bodyParser.urlencoded({extended: false, limit: '500mb'}));
-app.use(express.static(__dirname + 'dist'));
+app.use(express.static(path.join(__dirname, 'dist')));
 app.get('/*', function(req, res){
     const index = path.join(__dirname, 'dist', 'index.html');
     res.sendFile(index);
@@ -58,7 +58,16 @@ app.listen(process.env.PORT || 80, function() {
     logger.info('SERVER STARTUP COMPLETED [', _time - time, 'ms]');
     // EmailService.startServices();
 });
+const express = require('express')
+const path = require('path')
+const PORT = process.env.PORT || 5000
 
+// express()
+//   .use(express.static(path.join(__dirname, 'public')))
+//   .set('views', path.join(__dirname, 'views'))
+//   .set('view engine', 'ejs')
+//   .get('/', (req, res) => res.render('pages/index'))
+//   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 function setCustomCacheControl (res, path) {
     //if (serveStatic.mime.lookup(path) === 'text/html') {
       // Custom Cache-Control for HTML files
