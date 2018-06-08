@@ -13,10 +13,10 @@ let https = require('https');
 let pagespeed = require('pagespeed');
 // var expressStaticGzip = require("express-static-gzip");
 
-var httpsOptions = {
-  key: fs.readFileSync('./cert/server.key')
-    , cert: fs.readFileSync('./cert/server.crt')
-}
+// var httpsOptions = {
+//   key: fs.readFileSync('./cert/server.key')
+//     , cert: fs.readFileSync('./cert/server.crt')
+// }
 let logger = log4js.getLogger('TN-PORTAL');
 logger.level = 'debug';
 // Run the app by serving the static files
@@ -43,7 +43,7 @@ app.use(bodyParser.urlencoded({extended: false, limit: '500mb'}));
 app.use(express.static(__dirname + 'dist'));
 app.use(portal_handler);
 app.get('/*', function(req, res){
-    res.sendFile(__dirname + '/dist/index.html');
+    res.sendFile('dist/index.html');
 })
 // for secure server
 // https.createServer(httpsOptions, app).listen(process.env.PORT || 8080, function() {
