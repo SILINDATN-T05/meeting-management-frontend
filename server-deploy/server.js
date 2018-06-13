@@ -30,10 +30,10 @@ let time = new Date();
 app.set('view cache', true);
 // app.use("/", expressStaticGzip(__dirname + '/dist', { indexFromEmptyFile: false }));
 app.use(compression());
-app.use(function(req, res, next) {
-    res.setHeader("Content-Security-Policy", "default-src https:; script-src https: 'unsafe-inline'; style-src https: 'unsafe-inline'; img-src https: data:; frame-src https: data:;object-src https: data:;");
-    return next();
-});
+// app.use(function(req, res, next) {
+//     res.setHeader("Content-Security-Policy", "default-src https:; script-src https: 'unsafe-inline'; style-src https: 'unsafe-inline'; img-src https: data:; frame-src https: data:;object-src https: data:;");
+//     return next();
+// });
 app.use(serveStatic(__dirname + '/dist', {
     maxAge: '86400',
     setHeaders: setCustomCacheControl
@@ -55,7 +55,7 @@ app.get('/*', function(req, res){
 app.listen(process.env.PORT || 80, function() {
     let _time = new Date();
     logger.info('SERVER STARTUP COMPLETED [', _time - time, 'ms]');
-    EmailService.startServices();
+    // EmailService.startServices();
 });
 
 function setCustomCacheControl (res, path) {
@@ -64,3 +64,4 @@ function setCustomCacheControl (res, path) {
       res.setHeader('Cache-Control', 'public, max-age=86400')
     //}
   }
+// openode deploy --clearNpm -t 794e83f02296ce78e6c561e4d8e98e9f -s silindadashboard
